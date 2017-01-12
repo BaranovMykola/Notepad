@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     unsavedfilestate.cpp \
     abstractsavefilestate.cpp \
     savedialog.cpp \
-    savefilefunction.cpp
+    savefilefunction.cpp \
+    finddialog.cpp
 
 HEADERS  += mainwindow.h \
     undefinedfilestate.h \
@@ -28,9 +29,11 @@ HEADERS  += mainwindow.h \
     abstractsavefilestate.h \
     savedialog.h \
     savefilefunction.h \
-    constants.h
+    constants.h \
+    finddialog.h
 
 FORMS    += mainwindow.ui \
-    savedialog.ui
+    savedialog.ui \
+    finddialog.ui
 
 CONFIG += c++14

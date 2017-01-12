@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QTextCursor>
+#include <iterator>
 
 #include "abstractsavefilestate.h"
 #include "unsavedfilestate.h"
@@ -14,16 +15,20 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    findMenu(0)
 {
     stateSave = new SavedFileState;
     ui->setupUi(this);
+
+
     connect(ui->actionOpen, SIGNAL(triggered(bool)), this, SLOT(slotOpenFile()), Qt::UniqueConnection);
     connect(ui->actionSave, SIGNAL(triggered(bool)), this, SLOT(slotSaveFile()), Qt::UniqueConnection);
     connect(ui->actionExit, SIGNAL(triggered(bool)), this, SLOT(slotClose()), Qt::UniqueConnection);
     connect(ui->memo, SIGNAL(textChanged()), this, SLOT(slotEdit()), Qt::UniqueConnection);
     connect(ui->actionSave_as, SIGNAL(triggered(bool)), this, SLOT(slotSaveAs()), Qt::UniqueConnection);
     connect(ui->actionDelete, SIGNAL(triggered(bool)), this, SLOT(slotDeleteSelected()), Qt::UniqueConnection);
+    connect(ui->actionFind, SIGNAL(triggered(bool)), this, SLOT(slotFind()), Qt::UniqueConnection);
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
     ui->actionSave->setShortcut(QKeySequence::Save);
@@ -85,10 +90,20 @@ void MainWindow::slotEdit()
 
 void MainWindow::slotDeleteSelected()
 {
-    auto a = ui->memo->textCursor();
-    a.removeSelectedText();
-    ui->memo->setTextCursor(a);
+    auto cursor = ui->memo->textCursor();
+    cursor.removeSelectedText();
+    ui->memo->setTextCursor(cursor);
 
+}
+
+void MainWindow::slotFind()
+{
+//    QString data = getPlainText();
+//    int beg;
+//    int end;
+//    //beg = std::distance(data.)
+    findMenu.show();
+    findMenu.activateWindow();
 }
 
 void MainWindow::open()

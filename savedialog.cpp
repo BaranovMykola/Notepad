@@ -18,6 +18,7 @@ SaveDialog::SaveDialog(QWidget *parent, QFile &file, QString data) :
     mData(data)
 {
     ui->setupUi(this);
+    this->setWindowFlags(this->windowFlags() | Qt::MSWindowsFixedSizeDialogHint);
     QPalette sample_palette;
     sample_palette.setColor(QPalette::Window, Qt::white);
     sample_palette.setColor(QPalette::WindowText, QColor(0,80,170));

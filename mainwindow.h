@@ -8,6 +8,7 @@
 
 #include "savedialog.h"
 #include "constants.h"
+#include "finddialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +30,7 @@ public slots:
     void slotClose();
     void slotEdit();
     void slotDeleteSelected();
+    void slotFind();
 private:
     void open();
     void save();
@@ -44,6 +46,8 @@ private:
     Ui::MainWindow *ui;
     QFile mFile;
     QString mPathFile;
+    FindDialog findMenu;
+
 };
 
 #endif // MAINWINDOW_H
