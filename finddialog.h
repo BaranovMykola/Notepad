@@ -2,8 +2,8 @@
 #define FINDDIALOG_H
 
 #include <QDialog>
-#include <QTextCursor>
 class QPlainTextEdit;
+class MainWindow;
 
 namespace Ui {
 class FindDialog;
@@ -16,15 +16,13 @@ class FindDialog : public QDialog
 public:
     explicit FindDialog(QWidget *parent = 0);
     ~FindDialog();
-    void setMemo(QPlainTextEdit* memo);
+    void setMemo(QPlainTextEdit* _memo);
 public slots:
     void slotCancel();
-//    void slotFindNext();
+    void slotFindNext();
 private:
-//    void updateCursor();
     Ui::FindDialog *ui;
-    QPlainTextEdit* mMemo;
-//    QTextCursor mCurrent;
+    QPlainTextEdit* memo;
 };
 
 #endif // FINDDIALOG_H
