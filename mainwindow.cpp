@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     stateSave = new SavedFileState;
     ui->setupUi(this);
 
-
+    findMenu.setMemo(ui->memo);
     connect(ui->actionOpen, SIGNAL(triggered(bool)), this, SLOT(slotOpenFile()), Qt::UniqueConnection);
     connect(ui->actionSave, SIGNAL(triggered(bool)), this, SLOT(slotSaveFile()), Qt::UniqueConnection);
     connect(ui->actionExit, SIGNAL(triggered(bool)), this, SLOT(slotClose()), Qt::UniqueConnection);

@@ -27,14 +27,20 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="buttonFindNext">
+      <property name="whatsThis">
+       <string>Find next entry</string>
+      </property>
       <property name="text">
        <string>Find Next</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="buttonCancel">
+      <property name="whatsThis">
+       <string>Close this menu</string>
+      </property>
       <property name="text">
        <string>Cancel</string>
       </property>
@@ -42,7 +48,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QGroupBox" name="direction">
    <property name="geometry">
     <rect>
      <x>190</x>
@@ -54,7 +60,7 @@
    <property name="title">
     <string>Direction</string>
    </property>
-   <widget class="QRadioButton" name="radioButton_2">
+   <widget class="QRadioButton" name="down">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -63,6 +69,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="whatsThis">
+     <string>Search text behind</string>
+    </property>
     <property name="text">
      <string>Down</string>
     </property>
@@ -70,7 +79,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QRadioButton" name="up">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -79,12 +88,15 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="whatsThis">
+     <string>Search text above</string>
+    </property>
     <property name="text">
      <string>Up</string>
     </property>
    </widget>
-   <zorder>radioButton_2</zorder>
-   <zorder>radioButton</zorder>
+   <zorder>down</zorder>
+   <zorder>up</zorder>
    <zorder>horizontalLayoutWidget</zorder>
    <zorder>horizontalLayoutWidget</zorder>
   </widget>
@@ -111,11 +123,11 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit"/>
+     <widget class="QLineEdit" name="whatFind"/>
     </item>
    </layout>
   </widget>
-  <widget class="QCheckBox" name="checkBox">
+  <widget class="QCheckBox" name="case_2">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -123,6 +135,9 @@
      <width>111</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="whatsThis">
+    <string>Search in order to case</string>
    </property>
    <property name="text">
     <string>Match case</string>

@@ -47,7 +47,6 @@ private:
     QFile mFile;
     QString mPathFile;
     FindDialog findMenu;
-
 };
 
 #endif // MAINWINDOW_H
