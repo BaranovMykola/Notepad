@@ -25,6 +25,7 @@ public:
 public slots:
     void slotOpenFile();
     void slotSaveFile();
+    void slotSaveAs();
     void slotClose();
     void slotEdit();
 private:

@@ -21,7 +21,12 @@ void UnsavedFileState::updateState(MainWindow &obj)
 void UnsavedFileState::save(MainWindow& obj)
 {
     auto data = obj.getPlainText();
+    if(obj.mFile.fileName().isEmpty())
+    {
+        obj.mFile.setFileName(saveAs());
+    }
     saveFileFunction(obj.mFile, data);
+    updateState(obj);
 }
 
 void UnsavedFileState::close(MainWindow &obj)

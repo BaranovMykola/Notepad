@@ -9,6 +9,7 @@
 #include "abstractsavefilestate.h"
 #include "unsavedfilestate.h"
 #include "savedfilestate.h"
+#include "savefilefunction.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -20,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSave, SIGNAL(triggered(bool)), this, SLOT(slotSaveFile()), Qt::UniqueConnection);
     connect(ui->actionExit, SIGNAL(triggered(bool)), this, SLOT(slotClose()), Qt::UniqueConnection);
     connect(ui->memo, SIGNAL(textChanged()), this, SLOT(slotEdit()), Qt::UniqueConnection);
+    connect(ui->actionSave_as, SIGNAL(triggered(bool)), this, SLOT(slotSaveAs()), Qt::UniqueConnection);
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
     ui->actionSave->setShortcut(QKeySequence::Save);
@@ -55,7 +57,14 @@ void MainWindow::slotOpenFile()
 void MainWindow::slotSaveFile()
 {
     stateSave->save(*this);
-    stateSave->updateState(*this);
+}
+
+void MainWindow::slotSaveAs()
+{
+    mFile.setFileName(saveAs());
+    //stateSave->save(*this);
+    auto data = getPlainText();
+    saveFileFunction(mFile, data);
 }
 
 void MainWindow::slotClose()
