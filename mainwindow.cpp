@@ -5,6 +5,7 @@
 #include <QTextDocument>
 #include <QFileDialog>
 #include <QTextStream>
+#include <QTextCursor>
 
 #include "abstractsavefilestate.h"
 #include "unsavedfilestate.h"
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionExit, SIGNAL(triggered(bool)), this, SLOT(slotClose()), Qt::UniqueConnection);
     connect(ui->memo, SIGNAL(textChanged()), this, SLOT(slotEdit()), Qt::UniqueConnection);
     connect(ui->actionSave_as, SIGNAL(triggered(bool)), this, SLOT(slotSaveAs()), Qt::UniqueConnection);
+    connect(ui->actionDelete, SIGNAL(triggered(bool)), this, SLOT(slotDeleteSelected()), Qt::UniqueConnection);
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
     ui->actionSave->setShortcut(QKeySequence::Save);
@@ -43,7 +45,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
     }
     else
     {
-        event->ignore();
+        //event->ignore(); //prevent for closing after asking :D
         slotClose();
     }
 }
@@ -79,6 +81,14 @@ void MainWindow::slotEdit()
         stateSave->updateState(*this);
         qDebug() << "edited";
     }
+}
+
+void MainWindow::slotDeleteSelected()
+{
+    auto a = ui->memo->textCursor();
+    a.removeSelectedText();
+    ui->memo->setTextCursor(a);
+
 }
 
 void MainWindow::open()

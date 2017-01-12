@@ -28,6 +28,7 @@ public slots:
     void slotSaveAs();
     void slotClose();
     void slotEdit();
+    void slotDeleteSelected();
 private:
     void open();
     void save();
