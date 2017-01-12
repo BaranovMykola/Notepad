@@ -27,7 +27,8 @@ HEADERS  += mainwindow.h \
     unsavedfilestate.h \
     abstractsavefilestate.h \
     savedialog.h \
-    savefilefunction.h
+    savefilefunction.h \
+    constants.h
 
 FORMS    += mainwindow.ui \
     savedialog.ui

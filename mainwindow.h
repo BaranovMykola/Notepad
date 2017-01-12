@@ -7,11 +7,7 @@
 #include <memory>
 
 #include "savedialog.h"
-
-
-const QString TitleName = "Notepad";
-const QString TitleSeparator = " - ";
-const QString AskMessage = "Do you want to save changes to\n";
+#include "constants.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +20,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void closeEvent(QCloseEvent *event);
 public slots:
     void slotOpenFile();
     void slotSaveFile();

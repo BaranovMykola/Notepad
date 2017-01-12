@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     stateSave = new SavedFileState;
-
     ui->setupUi(this);
     connect(ui->actionOpen, SIGNAL(triggered(bool)), this, SLOT(slotOpenFile()), Qt::UniqueConnection);
     connect(ui->actionSave, SIGNAL(triggered(bool)), this, SLOT(slotSaveFile()), Qt::UniqueConnection);
@@ -31,6 +30,20 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete stateSave;
+}
+
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    qDebug() << "state saved: " << (dynamic_cast<UnsavedFileState*>(stateSave) == nullptr);
+    if(dynamic_cast<UnsavedFileState*>(stateSave) == nullptr)
+    {
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
+        slotClose();
+    }
 }
 
 void MainWindow::slotOpenFile()

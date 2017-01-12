@@ -5,6 +5,7 @@
 #include "savefilefunction.h"
 
 #include <QDebug>
+#include <QCloseEvent>
 
 UnsavedFileState::UnsavedFileState()
 {
@@ -28,6 +29,7 @@ void UnsavedFileState::close(MainWindow &obj)
     SaveDialog askSave(0, obj.mFile, obj.getPlainText());
     if(QDialog::Accepted == askSave.exec())
     {
+        obj.stateSave->updateState(obj);
         obj.close();
     }
 }
