@@ -26,3 +26,9 @@ void SavedFileState::open(MainWindow &obj)
 {
     obj.open();
 }
+
+void SavedFileState::newDoc(MainWindow &obj)
+{
+    obj.mFile.setFileName(QString());
+    obj.erase();
+}

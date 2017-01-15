@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSave_as, SIGNAL(triggered(bool)), this, SLOT(slotSaveAs()), Qt::UniqueConnection);
     connect(ui->actionDelete, SIGNAL(triggered(bool)), this, SLOT(slotDeleteSelected()), Qt::UniqueConnection);
     connect(ui->actionFind, SIGNAL(triggered(bool)), this, SLOT(slotFind()), Qt::UniqueConnection);
+    connect(ui->actionNew, SIGNAL(triggered(bool)), this,SLOT(slotNewFile()), Qt::UniqueConnection);
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
     ui->actionSave->setShortcut(QKeySequence::Save);
@@ -38,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionDelete->setShortcut(QKeySequence::Delete);
     ui->actionPaste->setShortcut(QKeySequence::Paste);
     ui->actionCut_2->setShortcut(QKeySequence::Cut);
+    ui->actionNew->setShortcut(QKeySequence::New);
 
 }
 
@@ -72,6 +74,11 @@ void MainWindow::closeEvent(QCloseEvent* event)
 void MainWindow::slotOpenFile()
 {
     stateSave->open(*this);
+}
+
+void MainWindow::slotNewFile()
+{
+    stateSave->newDoc(*this);
 }
 
 void MainWindow::slotSaveFile()
@@ -141,6 +148,12 @@ void MainWindow::save()
 
 
     //mFile.write(arr);
+}
+
+void MainWindow::erase()
+{
+    ui->memo->clear(); //edited -> unsavedstate
+    stateSave->updateState(*this); //setupp savedstate
 }
 
 void MainWindow::updateTitle(QString newTitle)

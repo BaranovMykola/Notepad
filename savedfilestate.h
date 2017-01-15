@@ -11,6 +11,7 @@ public:
     void save(MainWindow& obj);
     void close(MainWindow& obj);
     void open(MainWindow &obj);
+    void newDoc(MainWindow &obj);
 private:
 };
 

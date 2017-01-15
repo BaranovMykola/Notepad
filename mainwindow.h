@@ -25,6 +25,7 @@ public:
     void closeEvent(QCloseEvent *event);
 public slots:
     void slotOpenFile();
+    void slotNewFile();
     void slotSaveFile();
     void slotSaveAs();
     void slotClose();
@@ -34,6 +35,7 @@ public slots:
 private:
     void open();
     void save();
+    void erase();
     void updateTitle(QString newTitle);
     QString getPlainText();
 

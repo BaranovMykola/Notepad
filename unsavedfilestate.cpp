@@ -53,3 +53,13 @@ void UnsavedFileState::open(MainWindow &obj)
         obj.open();
     }
 }
+
+void UnsavedFileState::newDoc(MainWindow &obj)
+{
+    SaveDialog askSave(0, obj.mFile, obj.getPlainText());
+    if(QDialog::Accepted == askSave.exec())
+    {
+        obj.mFile.setFileName(QString());
+        obj.erase();
+    }
+}
