@@ -6,9 +6,9 @@
 class SavedFileState : public AbstractSaveFileState
 {
 public:
-    SavedFileState();
+    ~SavedFileState();
     void updateState(MainWindow& obj);
-    void save(MainWindow& obj);
+    void save(MainWindow&);
     void close(MainWindow& obj);
     void open(MainWindow &obj);
     void newDoc(MainWindow &obj);

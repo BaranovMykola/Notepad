@@ -7,7 +7,8 @@
 #include <QDebug>
 #include <QCloseEvent>
 
-UnsavedFileState::UnsavedFileState()
+
+UnsavedFileState::~UnsavedFileState()
 {
 
 }

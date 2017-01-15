@@ -3,7 +3,7 @@
 #include "mainwindow.h"
 #include "unsavedfilestate.h"
 
-SavedFileState::SavedFileState()
+SavedFileState::~SavedFileState()
 {
 }
 
@@ -13,7 +13,7 @@ void SavedFileState::updateState(MainWindow &obj)
     delete this;
 }
 
-void SavedFileState::save(MainWindow& obj)
+void SavedFileState::save(MainWindow&)
 {
 }
 

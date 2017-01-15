@@ -6,7 +6,7 @@
 class UnsavedFileState : public AbstractSaveFileState
 {
 public:
-    UnsavedFileState();
+    ~UnsavedFileState();
     void updateState(MainWindow &obj);
     void save(MainWindow& obj);
     void close(MainWindow &obj);
