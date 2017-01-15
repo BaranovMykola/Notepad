@@ -33,6 +33,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
     ui->actionSave->setShortcut(QKeySequence::Save);
+    ui->actionCopy->setShortcut(QKeySequence::Copy);
+    ui->actionUndo_2->setShortcut(QKeySequence::Undo);
+    ui->actionDelete->setShortcut(QKeySequence::Delete);
+    ui->actionPaste->setShortcut(QKeySequence::Paste);
+    ui->actionCut_2->setShortcut(QKeySequence::Cut);
 
 }
 
