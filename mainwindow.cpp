@@ -53,6 +53,14 @@ void MainWindow::closeEvent(QCloseEvent* event)
     {
         //event->ignore(); //prevent for closing after asking :D
         slotClose();
+        if(dynamic_cast<UnsavedFileState*>(stateSave) == nullptr)
+        {
+            event->accept();
+        }
+        else
+        {
+            event->ignore();
+        }
     }
 }
 
