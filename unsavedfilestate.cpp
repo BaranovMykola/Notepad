@@ -44,3 +44,12 @@ void UnsavedFileState::close(MainWindow &obj)
         obj.close();
     }
 }
+
+void UnsavedFileState::open(MainWindow &obj)
+{
+    SaveDialog askSave(0, obj.mFile, obj.getPlainText());
+    if(QDialog::Accepted == askSave.exec())
+    {
+        obj.open();
+    }
+}

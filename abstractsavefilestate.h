@@ -9,6 +9,7 @@ public:
     virtual void updateState(MainWindow& obj)=0;
     virtual void save(MainWindow& obj)=0;
     virtual void close(MainWindow& obj)=0;
+    virtual void open(MainWindow& obj)=0;
 private:
 };
 

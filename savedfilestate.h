@@ -10,6 +10,7 @@ public:
     void updateState(MainWindow& obj);
     void save(MainWindow& obj);
     void close(MainWindow& obj);
+    void open(MainWindow &obj);
 private:
 };
 

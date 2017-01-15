@@ -21,3 +21,8 @@ void SavedFileState::close(MainWindow &obj)
 {
     obj.close();
 }
+
+void SavedFileState::open(MainWindow &obj)
+{
+    obj.open();
+}

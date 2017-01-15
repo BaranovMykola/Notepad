@@ -66,8 +66,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::slotOpenFile()
 {
-    stateSave->save(*this);
-    open();
+    stateSave->open(*this);
 }
 
 void MainWindow::slotSaveFile()
