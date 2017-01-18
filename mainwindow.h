@@ -31,6 +31,7 @@ public slots:
     void slotEdit();
     void slotDeleteSelected();
     void slotFind();
+    void slotFindNext();
 private:
     void open();
     void save();

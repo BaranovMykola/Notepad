@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QTextCursor>
+#include "constants.h"
 
 class QPlainTextEdit;
 class MainWindow;
@@ -23,7 +24,7 @@ public slots:
     void slotCancel();
     void slotFindNext();
 private:
-    void errorMessage(QString subject);
+    void errorMessage(QString subject, QString message = NotFoundMessage);
     void selectText(int from, int to, QTextCursor& pointer);
 
     Ui::FindDialog *ui;

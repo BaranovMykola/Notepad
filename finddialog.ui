@@ -121,13 +121,13 @@
     <item>
      <widget class="QLineEdit" name="whatFind">
       <property name="text">
-       <string>file</string>
+       <string/>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
-  <widget class="QCheckBox" name="case_2">
+  <widget class="QCheckBox" name="matchCase">
    <property name="geometry">
     <rect>
      <x>10</x>

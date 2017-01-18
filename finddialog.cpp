@@ -46,64 +46,62 @@ void FindDialog::slotCancel()
 
 void FindDialog::slotFindNext()
 {
-    auto pointer = memo->textCursor();
-    qDebug() << "position: " << pointer.position();
-    QString data = memo->toPlainText();
-    QString subject = ui->whatFind->text();
-    QString::iterator result;
-    int firstPos;
-    int secondPos;
-    QString::iterator beg = std::next(data.begin(), pointer.position());
-    if(ui->down->isChecked())
+    if(ui->whatFind->text().isEmpty())
     {
-        result = std::search(beg, data.end(), subject.begin(), subject.end());
-        secondPos = firstPos+subject.length();
-        firstPos = std::distance(data.begin(), result);
+        errorMessage("", "Cannot found empty word");
     }
-    else if(ui->up->isChecked())
+    else
     {
-        pointer.setPosition(pointer.selectionStart());
-        pointer.clearSelection();
-        qDebug() << "selection: " << pointer.selectionStart() << " - " << pointer.selectionEnd();
-        qDebug() << "Started pos: " << pointer.position();
-        std::string::const_reverse_iterator beg = std::prev(data.toStdString().rend(), pointer.position());
-        std::string stdData = data.toStdString();
-        std::cout << std::endl;
-        auto stdSubject = subject.toStdString();
-//        for(auto i = stdSubject.crbegin();i!= stdSubject.crend();++i)
-//        {
-//            std::cout << *i;
-//        }
-        std::cout << std::endl << std::endl;
-        std::string::reverse_iterator rbeg = std::next(stdData.rbegin(), abs(pointer.position()-stdData.length()));
-//        for(auto i = rbeg;i!= stdData.crend();++i)
-//        {
-//            qDebug() << *i;
-//        }
-        auto result2 = std::search(rbeg, stdData.rend(), stdSubject.rbegin(), stdSubject.rend());
-        result = std::next(data.begin(), std::distance(stdData.begin(), result2.base()));
-        firstPos = std::distance(data.begin(), result)-subject.length();
-        secondPos = firstPos+subject.length();
-        qDebug() << "First pos of founded value: " << firstPos << " Second pos: " << secondPos;
-//        pointer.setPosition(firstPos);
-    }
+        auto pointer = memo->textCursor();
+        qDebug() << "position: " << pointer.position();
+        QString data = memo->toPlainText();
+        QString subject = ui->whatFind->text();
+        if(ui->matchCase->isChecked())
+        {
+            data = data.toLower();
+            subject = subject.toLower();
+        }
+        QString::iterator result;
+        int firstPos;
+        int secondPos;
+        QString::iterator beg = std::next(data.begin(), pointer.position());
+        if(ui->down->isChecked())
+        {
+            result = std::search(beg, data.end(), subject.begin(), subject.end());
+            firstPos = std::distance(data.begin(), result);
+            secondPos = firstPos+subject.length();
+        }
+        else if(ui->up->isChecked())
+        {
+            pointer.setPosition(pointer.selectionStart()); //take fisrt pos of selection.
+            pointer.clearSelection();
 
-    if(result == data.end() && ui->down->isChecked() || result == data.begin() && ui->up->isChecked())
-    {
-        errorMessage(subject);
+            std::string stdData = data.toStdString();
+            auto stdSubject = subject.toStdString();
+            std::string::reverse_iterator rbeg = std::next(stdData.rbegin(), abs(pointer.position()-stdData.length()));
+            //take reverse_iterator of current pos
+            auto reverseResult = std::search(rbeg, stdData.rend(), stdSubject.rbegin(), stdSubject.rend());
+            result = std::next(data.begin(), std::distance(stdData.begin(), reverseResult.base()));
+            firstPos = std::distance(data.begin(), result)-subject.length();
+            secondPos = firstPos+subject.length();
+        }
+
+        if( ( result == data.end() && ui->down->isChecked() ) || ( result == data.begin() && ui->up->isChecked() ) )
+        {
+            errorMessage(subject);
+        }
+        else
+        {
+            qDebug() << "Founded '" << subject << "' at " << std::distance(data.begin(), result) << "position. Moving cursor...";
+            selectText(firstPos, secondPos, pointer);
+        }
     }
-    qDebug() << "Founded '" << subject << "' at " << std::distance(data.begin(), result) << "position. Moving cursor...";
-    selectText(firstPos, secondPos, pointer);
-//    pointer = memo->textCursor();
-//    pointer.clearSelection();
-//    memo->setTextCursor(pointer);
 }
 
-void FindDialog::errorMessage(QString subject)
+void FindDialog::errorMessage(QString subject, QString message)
 {
     QMessageBox errorMessage;
-    QString message = NotFoundMessage;
-    message.arg(subject);
+    message = message.arg(subject);
     errorMessage.setText(message);
     errorMessage.setIcon(QMessageBox::Information);
     errorMessage.setWindowTitle("Notepad");

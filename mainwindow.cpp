@@ -30,9 +30,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSave_as, SIGNAL(triggered(bool)), this, SLOT(slotSaveAs()), Qt::UniqueConnection);
     connect(ui->actionDelete, SIGNAL(triggered(bool)), this, SLOT(slotDeleteSelected()), Qt::UniqueConnection);
     connect(ui->actionFind, SIGNAL(triggered(bool)), this, SLOT(slotFind()), Qt::UniqueConnection);
+    connect(ui->actionFind_next, SIGNAL(triggered(bool)), this, SLOT(slotFindNext()), Qt::UniqueConnection);
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
     ui->actionSave->setShortcut(QKeySequence::Save);
+    ui->actionFind->setShortcut(QKeySequence::Find);
 
 }
 
@@ -99,12 +101,13 @@ void MainWindow::slotDeleteSelected()
 
 void MainWindow::slotFind()
 {
-//    QString data = getPlainText();
-//    int beg;
-//    int end;
-//    //beg = std::distance(data.)
     findMenu.show();
     findMenu.activateWindow();
+}
+
+void MainWindow::slotFindNext()
+{
+    findMenu.slotFindNext();
 }
 
 void MainWindow::open()
