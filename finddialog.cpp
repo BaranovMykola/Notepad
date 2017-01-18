@@ -50,26 +50,48 @@ void FindDialog::slotFindNext()
     qDebug() << "position: " << pointer.position();
     QString data = memo->toPlainText();
     QString subject = ui->whatFind->text();
-    auto beg = std::next(data.begin(), pointer.position());
-    auto result = std::search(beg, data.end(), subject.begin(), subject.end());
+    QString::iterator result;
+    if(ui->down->isChecked())
+    {
+        QString::iterator beg = std::next(data.begin(), pointer.position());
+        result = std::search(beg, data.end(), subject.begin(), subject.end());
+    }
+    else if(ui->up->isChecked())
+    {
+        std::string::const_reverse_iterator beg = std::prev(data.toStdString().rend(), pointer.position());
+        std::string stdData = data.toStdString();
+        auto result2 = std::search(stdData.crbegin(), stdData.crend(), subject.toStdString().crbegin(), subject.toStdString().crend());
+        result = std::next(data.begin(), std::distance(stdData.crend(), result2));
+    }
+
     if(result == data.end())
     {
-        QMessageBox errorMessage;
-        QString message = NotFoundMessage;
-        message.append("'");
-        message.append(subject);
-        message.append("'");
-        errorMessage.setText(message);
-        errorMessage.setIcon(QMessageBox::Information);
-        errorMessage.setWindowTitle("Notepad");
-        this->hide();
-        errorMessage.exec();
+        errorMessage(subject);
     }
     qDebug() << "Founded '" << subject << "' at " << std::distance(data.begin(), result) << "position. Moving cursor...";
     int firstPos = std::distance(data.begin(), result);
     int secondPos = firstPos+subject.length();
-    pointer.setPosition(firstPos);
-    pointer.setPosition(secondPos, QTextCursor::KeepAnchor);
-    memo->setTextCursor(pointer);
+    selectText(firstPos, secondPos);
 }
 
+void FindDialog::errorMessage(QString subject)
+{
+    QMessageBox errorMessage;
+    QString message = NotFoundMessage;
+    message.append("'");
+    message.append(subject);
+    message.append("'");
+    errorMessage.setText(message);
+    errorMessage.setIcon(QMessageBox::Information);
+    errorMessage.setWindowTitle("Notepad");
+    this->hide();
+    errorMessage.exec();
+}
+
+void FindDialog::selectText(int from, int to)
+{
+    auto pointer = memo->textCursor();
+    pointer.setPosition(from);
+    pointer.setPosition(to, QTextCursor::KeepAnchor);
+    memo->setTextCursor(pointer);
+}
