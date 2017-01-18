@@ -41,6 +41,13 @@ void FindDialog::slotCancel()
 
 void FindDialog::slotFindNext()
 {
+    setlocale(LC_ALL, "RUS");
+    setlocale(LC_ALL, "UKR");
+
+    QString a = "привіт";
+    std::string b = a.toStdString();
+    qDebug() << a;
+    qDebug() << QString(b.c_str());
     auto pointer = memo->textCursor();
     if(ui->whatFind->text().isEmpty())
     {
@@ -52,7 +59,7 @@ void FindDialog::slotFindNext()
         qDebug() << "position: " << pointer.position();
         QString data = memo->toPlainText();
         QString subject = ui->whatFind->text();
-        if(ui->matchCase->isChecked())
+        if(!ui->matchCase->isChecked())
         {
             data = data.toLower();
             subject = subject.toLower();
@@ -94,11 +101,6 @@ void FindDialog::slotFindNext()
     }
 }
 
-QLineEdit &FindDialog::getFindEdit()
-{
-    return *(ui->whatFind);
-}
-
 void FindDialog::errorMessage(QString subject, QString message)
 {
     QMessageBox errorMessage;
@@ -112,7 +114,6 @@ void FindDialog::errorMessage(QString subject, QString message)
 
 void FindDialog::selectText(int from, int to, QTextCursor &pointer)
 {
-//    auto pointer = memo->textCursor();
     pointer.setPosition(from);
     pointer.setPosition(to, QTextCursor::KeepAnchor);
     memo->setTextCursor(pointer);
