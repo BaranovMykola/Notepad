@@ -34,11 +34,6 @@ void FindDialog::setMemo(QPlainTextEdit *_memo)
     memo = _memo;
 }
 
-//void FindDialog::setMain(MainWindow *_main)
-//{
-//    mainWindow = _main;
-//}
-
 void FindDialog::slotCancel()
 {
     this->hide();
@@ -46,13 +41,14 @@ void FindDialog::slotCancel()
 
 void FindDialog::slotFindNext()
 {
+    auto pointer = memo->textCursor();
     if(ui->whatFind->text().isEmpty())
     {
         errorMessage("", "Cannot found empty word");
+        pointer.clearSelection();
     }
     else
     {
-        auto pointer = memo->textCursor();
         qDebug() << "position: " << pointer.position();
         QString data = memo->toPlainText();
         QString subject = ui->whatFind->text();
@@ -96,6 +92,11 @@ void FindDialog::slotFindNext()
             selectText(firstPos, secondPos, pointer);
         }
     }
+}
+
+QLineEdit &FindDialog::getFindEdit()
+{
+    return *(ui->whatFind);
 }
 
 void FindDialog::errorMessage(QString subject, QString message)

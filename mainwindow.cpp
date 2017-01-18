@@ -12,6 +12,7 @@
 #include "unsavedfilestate.h"
 #include "savedfilestate.h"
 #include "savefilefunction.h"
+#include "ui_finddialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -31,10 +32,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionDelete, SIGNAL(triggered(bool)), this, SLOT(slotDeleteSelected()), Qt::UniqueConnection);
     connect(ui->actionFind, SIGNAL(triggered(bool)), this, SLOT(slotFind()), Qt::UniqueConnection);
     connect(ui->actionFind_next, SIGNAL(triggered(bool)), this, SLOT(slotFindNext()), Qt::UniqueConnection);
+    connect(findMenu.ui->whatFind, SIGNAL(editingFinished()), this, SLOT(slotEditFindWord()), Qt::UniqueConnection);
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
     ui->actionSave->setShortcut(QKeySequence::Save);
     ui->actionFind->setShortcut(QKeySequence::Find);
+    ui->actionFind_next->setShortcut(QKeySequence::FindNext);
 
 }
 
@@ -89,6 +92,7 @@ void MainWindow::slotEdit()
         stateSave->updateState(*this);
         qDebug() << "edited";
     }
+    ui->actionFind->setEnabled(!ui->memo->toPlainText().isEmpty());
 }
 
 void MainWindow::slotDeleteSelected()
@@ -108,6 +112,11 @@ void MainWindow::slotFind()
 void MainWindow::slotFindNext()
 {
     findMenu.slotFindNext();
+}
+
+void MainWindow::slotEditFindWord()
+{
+    ui->actionFind_next->setEnabled(!findMenu.ui->whatFind->text().isEmpty());
 }
 
 void MainWindow::open()

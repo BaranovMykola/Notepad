@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QTextCursor>
+#include <QLineEdit>
+
 #include "constants.h"
 
 class QPlainTextEdit;
@@ -23,9 +25,12 @@ public:
 public slots:
     void slotCancel();
     void slotFindNext();
+    QLineEdit& getFindEdit();
 private:
     void errorMessage(QString subject, QString message = NotFoundMessage);
     void selectText(int from, int to, QTextCursor& pointer);
+
+    friend class MainWindow;
 
     Ui::FindDialog *ui;
     QPlainTextEdit* memo;
