@@ -95,10 +95,6 @@
      <string>Up</string>
     </property>
    </widget>
-   <zorder>down</zorder>
-   <zorder>up</zorder>
-   <zorder>horizontalLayoutWidget</zorder>
-   <zorder>horizontalLayoutWidget</zorder>
   </widget>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
@@ -123,7 +119,11 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="whatFind"/>
+     <widget class="QLineEdit" name="whatFind">
+      <property name="text">
+       <string>file</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

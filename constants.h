@@ -7,6 +7,6 @@ const QString TitleName = "Notepad";
 const QString TitleSeparator = " - ";
 const QString AskMessage = "Do you want to save changes to";
 const QString AskSeparator = " ";
-const QString NotFoundMessage = "Cannot found ";
+const QString NotFoundMessage = "Cannot found '%1'. Matched end of the file.";
 
 #endif // CONSTANTS_H

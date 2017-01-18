@@ -2,6 +2,8 @@
 #define FINDDIALOG_H
 
 #include <QDialog>
+#include <QTextCursor>
+
 class QPlainTextEdit;
 class MainWindow;
 
@@ -22,9 +24,7 @@ public slots:
     void slotFindNext();
 private:
     void errorMessage(QString subject);
-    void selectText(int from, int to);
-    template<typename Iter, typename IterStr, typename Result>
-    Result searchNext(Iter from, Iter to, IterStr fromStr, IterStr toStr);
+    void selectText(int from, int to, QTextCursor& pointer);
 
     Ui::FindDialog *ui;
     QPlainTextEdit* memo;
