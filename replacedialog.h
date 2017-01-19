@@ -19,6 +19,7 @@ public:
 public slots:
     void slotCancel();
     void slotFindNext();
+    void slotReplace();
 private:
     Ui::ReplaceDialog *ui;
     FindDialog* mFindMenu;
