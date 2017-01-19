@@ -21,6 +21,7 @@ public slots:
     bool slotFindNext();
     void slotReplace();
     void slotReplaceAll();
+    void slotEditRepalceWord();
 private:
     bool replace(bool errorReport);
     Ui::ReplaceDialog *ui;

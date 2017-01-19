@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Replace</string>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
@@ -25,20 +25,60 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QPushButton" name="buttonFindNext">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="font">
+       <font>
+        <weight>50</weight>
+        <bold>false</bold>
+        <stylestrategy>PreferDefault</stylestrategy>
+       </font>
+      </property>
+      <property name="whatsThis">
+       <string>Find next entry of the word</string>
+      </property>
       <property name="text">
        <string>Find Next</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+      <property name="autoDefault">
+       <bool>true</bool>
+      </property>
+      <property name="default">
+       <bool>false</bool>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="buttonReplace">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="whatsThis">
+       <string>Replase next entry</string>
+      </property>
       <property name="text">
        <string>Replace</string>
+      </property>
+      <property name="autoRepeatDelay">
+       <number>294</number>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="buttonReplaceAll">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="whatsThis">
+       <string>Replace all entrys in the file</string>
+      </property>
       <property name="text">
        <string>Replace All</string>
       </property>
@@ -46,6 +86,9 @@
     </item>
     <item>
      <widget class="QPushButton" name="buttonCancel">
+      <property name="whatsThis">
+       <string>Clsoe this dialog</string>
+      </property>
       <property name="text">
        <string>Cancel</string>
       </property>
@@ -59,7 +102,7 @@
      <x>10</x>
      <y>10</y>
      <width>301</width>
-     <height>51</height>
+     <height>55</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -94,10 +137,18 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QLineEdit" name="findWhat"/>
+       <widget class="QLineEdit" name="findWhat">
+        <property name="whatsThis">
+         <string>Find this</string>
+        </property>
+       </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="replaceWith"/>
+       <widget class="QLineEdit" name="replaceWith">
+        <property name="whatsThis">
+         <string>Replase with this</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -111,6 +162,9 @@
      <width>101</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="whatsThis">
+    <string>Mathc case while finding entrys</string>
    </property>
    <property name="text">
     <string>Match case</string>

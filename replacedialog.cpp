@@ -13,6 +13,7 @@ ReplaceDialog::ReplaceDialog(QWidget *parent) :
     connect(ui->buttonFindNext, SIGNAL(clicked(bool)), this, SLOT(slotFindNext()), Qt::UniqueConnection);
     connect(ui->buttonReplace, SIGNAL(clicked(bool)), this, SLOT(slotReplace()), Qt::UniqueConnection);
     connect(ui->buttonReplaceAll, SIGNAL(clicked(bool)), this, SLOT(slotReplaceAll()), Qt::UniqueConnection);
+    connect(ui->findWhat, SIGNAL(textChanged(QString)), this, SLOT(slotEditRepalceWord()), Qt::UniqueConnection);
 
     ui->buttonFindNext->setShortcut(QKeySequence::FindNext);
 }
@@ -52,6 +53,14 @@ void ReplaceDialog::slotReplaceAll()
     {
         mFindMenu->errorMessage(ui->findWhat->text(), NotFoundMessage);
     }
+}
+
+void ReplaceDialog::slotEditRepalceWord()
+{
+    bool enable = !ui->findWhat->text().isEmpty();
+    ui->buttonFindNext->setEnabled(enable);
+    ui->buttonReplace->setEnabled(enable);
+    ui->buttonReplaceAll->setEnabled(enable);
 }
 
 bool ReplaceDialog::replace(bool errorReport)
