@@ -47,7 +47,7 @@ void FindDialog::slotFindNext()
 bool FindDialog::findNext(bool custom, QString subject)
 {
     auto pointer = memo->textCursor();
-    if(ui->whatFind->text().isEmpty() && !custom)
+    if(subject.isEmpty())
     {
         errorMessage("", "Cannot found empty word");
         pointer.clearSelection();
@@ -56,7 +56,7 @@ bool FindDialog::findNext(bool custom, QString subject)
     {
         qDebug() << "position: " << pointer.position();
         QString data = memo->toPlainText();
-        QString subject = ui->whatFind->text();
+//        QString subject = ui->whatFind->text();
         if(!ui->matchCase->isChecked())
         {
             data = data.toLower();
