@@ -1,25 +1,26 @@
 
-#ifndef QSTRINGLISTMODEL_H
-#define QSTRINGLISTMODEL_H
+//#ifndef QSTRINGLISTMODEL_H
+//#define QSTRINGLISTMODEL_H
 
 #include <QLabel>
-#include <QtCore/qstringlist.h>
-//#include <QtGui/qabstractitemview.h>
+#include <qstringlist.h>
+#include <QAbstractListModel>
+#include <qabstractitemview.h>
 
-QT_BEGIN_HEADER
+//QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
+//QT_BEGIN_NAMESPACE
 
-QT_MODULE(Gui)
+//QT_MODULE(Gui)
 
-#ifndef QT_NO_STRINGLISTMODEL
+//#ifndef QT_NO_STRINGLISTMODEL
 
-class Q_GUI_EXPORT QStringListModel : public QAbstractListModel
+class /*Q_GUI_EXPORT*/ FontModel : public QAbstractListModel
 {
-    Q_OBJECT
+//    Q_OBJECT
 public:
-    explicit QStringListModel(QObject *parent = 0);
-    QStringListModel(const QStringList &strings, QObject *parent = 0);
+    explicit FontModel(QObject *parent = 0);
+    FontModel(const QStringList &strings, QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
@@ -39,15 +40,15 @@ public:
     Qt::DropActions supportedDropActions() const;
 
 private:
-    Q_DISABLE_COPY(QStringListModel)
+//    Q_DISABLE_COPY(FontModel)
     QStringList lst;
-    QVector<QLabel> vlb;
+    QVector<QLabel*> vlb;
 };
 
-#endif // QT_NO_STRINGLISTMODEL
+//#endif // QT_NO_STRINGLISTMODEL
 
-QT_END_NAMESPACE
+//QT_END_NAMESPACE
 
-QT_END_HEADER
+//QT_END_HEADER
 
-#endif // QSTRINGLISTMODEL_H
+//#endif // QSTRINGLISTMODEL_H

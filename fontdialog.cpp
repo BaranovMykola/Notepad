@@ -14,7 +14,8 @@ FontDialog::FontDialog(QWidget *parent) :
     ui->setupUi(this);
     QStringList lst;
 //    QStringListModel* m = new QStringListModel;
-    QStringListModel* m = new QStringListModel;
+//    QStringListModel* m = new QStringListModel;
+    FontModel* m = new FontModel;
     lst << "abc" << "ABC" << "???";
     m->setStringList(lst);
     ui->listView->setModel(m);
