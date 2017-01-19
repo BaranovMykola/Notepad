@@ -71,15 +71,8 @@ void FindDialog::slotFindNext()
         {
             pointer.setPosition(pointer.selectionStart()); //take fisrt pos of selection.
             pointer.clearSelection();
-
-            std::string stdData = data.toStdString();
-            auto stdSubject = subject.toStdString();
-            std::string::reverse_iterator rbeg = std::next(stdData.rbegin(), abs(pointer.position()-stdData.length()));
-            //take reverse_iterator of current pos
-//            auto reverseResult = std::search(rbeg, stdData.rend(), stdSubject.rbegin(), stdSubject.rend());
             auto reverseResult = std::search(std::next(data.rbegin(), abs(pointer.position()-data.length())),
                                              data.rend(), subject.rbegin(), subject.rend());
-//            result = std::next(data.begin(), std::distance(stdData.begin(), reverseResult.base()));
             result = reverseResult.base();
             firstPos = std::distance(data.begin(), result)-subject.length();
             secondPos = firstPos+subject.length();
