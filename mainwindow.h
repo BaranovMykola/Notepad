@@ -38,6 +38,7 @@ public slots:
     void slotEditFindWord();
     void slotReplace();
     void slotGoTo();
+    void slotInserData();
 private:
     void open();
     void save();

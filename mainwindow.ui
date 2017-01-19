@@ -51,7 +51,7 @@
      <x>0</x>
      <y>0</y>
      <width>557</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -70,6 +70,7 @@
      <string>Edit</string>
     </property>
     <addaction name="actionUndo_2"/>
+    <addaction name="actionRedo"/>
     <addaction name="separator"/>
     <addaction name="actionCut_2"/>
     <addaction name="actionCopy"/>
@@ -259,6 +260,11 @@
     <string>About Notepad</string>
    </property>
   </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>Redo</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
@@ -324,6 +330,22 @@
     <hint type="destinationlabel">
      <x>278</x>
      <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRedo</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>memo</receiver>
+   <slot>redo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>278</x>
+     <y>265</y>
     </hint>
    </hints>
   </connection>

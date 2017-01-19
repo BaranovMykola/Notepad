@@ -7,6 +7,8 @@
 #include <QTextStream>
 #include <QTextCursor>
 #include <iterator>
+#include <QDate>
+#include <QTime>
 
 #include "abstractsavefilestate.h"
 #include "unsavedfilestate.h"
@@ -41,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionNew, SIGNAL(triggered(bool)), this, SLOT(slotNewFile()), Qt::UniqueConnection);
     connect(ui->actionReplace, SIGNAL(triggered(bool)), this, SLOT(slotReplace()), Qt::UniqueConnection);
     connect(ui->actionGo_to, SIGNAL(triggered(bool)), this, SLOT(slotGoTo()), Qt::UniqueConnection);
+    connect(ui->actionTime_Date, SIGNAL(triggered(bool)), this, SLOT(slotInserData()), Qt::UniqueConnection);
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
@@ -55,7 +58,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionNew->setShortcut(QKeySequence::New);
     ui->actionReplace->setShortcut(QKeySequence::Replace);
     ui->actionGo_to->setShortcut(QKeySequence::Forward);
-
+    ui->actionRedo->setShortcut(QKeySequence::Redo);
+    ui->actionTime_Date->setShortcut(QKeySequence("Ctrl+D"));
 }
 
 MainWindow::~MainWindow()
@@ -121,7 +125,9 @@ void MainWindow::slotEdit()
         stateSave->updateState(*this);
         qDebug() << "edited";
     }
-    ui->actionFind->setEnabled(!ui->memo->toPlainText().isEmpty());
+    bool enable = !ui->memo->toPlainText().isEmpty();
+    ui->actionFind->setEnabled(enable);
+    ui->actionSelect_all->setEnabled(enable);
 }
 
 void MainWindow::slotDeleteSelected()
@@ -129,7 +135,6 @@ void MainWindow::slotDeleteSelected()
     auto cursor = ui->memo->textCursor();
     cursor.removeSelectedText();
     ui->memo->setTextCursor(cursor);
-
 }
 
 void MainWindow::slotFind()
@@ -164,6 +169,13 @@ void MainWindow::slotGoTo()
     }
 }
 
+void MainWindow::slotInserData()
+{
+    auto pointer = ui->memo->textCursor();
+    pointer.insertText(QString("%1 - %2").arg(QDate::currentDate().toString()).arg(QTime::currentTime().toString()));
+    ui->memo->setTextCursor(pointer);
+}
+
 void MainWindow::open()
 {
     QFileDialog files;
@@ -183,15 +195,13 @@ void MainWindow::open()
 
 void MainWindow::save()
 {
-
-
     //mFile.write(arr);
 }
 
 void MainWindow::erase()
 {
     ui->memo->clear(); //edited -> unsavedstate
-    stateSave->updateState(*this); //setupp savedstate
+    stateSave->updateState(*this); //setup savedstate
 }
 
 void MainWindow::updateTitle(QString newTitle)
