@@ -33,11 +33,19 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionFind, SIGNAL(triggered(bool)), this, SLOT(slotFind()), Qt::UniqueConnection);
     connect(ui->actionFind_next, SIGNAL(triggered(bool)), this, SLOT(slotFindNext()), Qt::UniqueConnection);
     connect(findMenu.ui->whatFind, SIGNAL(editingFinished()), this, SLOT(slotEditFindWord()), Qt::UniqueConnection);
+    connect(ui->actionNew, SIGNAL(triggered(bool)), this,SLOT(slotNewFile()), Qt::UniqueConnection);
+
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
-    ui->actionSave->setShortcut(QKeySequence::Save);
     ui->actionFind->setShortcut(QKeySequence::Find);
     ui->actionFind_next->setShortcut(QKeySequence::FindNext);
+    ui->actionSave->setShortcut(QKeySequence::Save);
+    ui->actionCopy->setShortcut(QKeySequence::Copy);
+    ui->actionUndo_2->setShortcut(QKeySequence::Undo);
+    ui->actionDelete->setShortcut(QKeySequence::Delete);
+    ui->actionPaste->setShortcut(QKeySequence::Paste);
+    ui->actionCut_2->setShortcut(QKeySequence::Cut);
+    ui->actionNew->setShortcut(QKeySequence::New);
 
 }
 
@@ -58,13 +66,25 @@ void MainWindow::closeEvent(QCloseEvent* event)
     {
         //event->ignore(); //prevent for closing after asking :D
         slotClose();
+        if(dynamic_cast<UnsavedFileState*>(stateSave) == nullptr)
+        {
+            event->accept();
+        }
+        else
+        {
+            event->ignore();
+        }
     }
 }
 
 void MainWindow::slotOpenFile()
 {
-    stateSave->save(*this);
-    open();
+    stateSave->open(*this);
+}
+
+void MainWindow::slotNewFile()
+{
+    stateSave->newDoc(*this);
 }
 
 void MainWindow::slotSaveFile()
@@ -141,6 +161,12 @@ void MainWindow::save()
 
 
     //mFile.write(arr);
+}
+
+void MainWindow::erase()
+{
+    ui->memo->clear(); //edited -> unsavedstate
+    stateSave->updateState(*this); //setupp savedstate
 }
 
 void MainWindow::updateTitle(QString newTitle)

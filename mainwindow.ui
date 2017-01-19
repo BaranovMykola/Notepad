@@ -51,7 +51,7 @@
      <x>0</x>
      <y>0</y>
      <width>557</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -73,7 +73,7 @@
     <addaction name="separator"/>
     <addaction name="actionCut_2"/>
     <addaction name="actionCopy"/>
-    <addaction name="actionPast"/>
+    <addaction name="actionPaste"/>
     <addaction name="actionDelete"/>
     <addaction name="separator"/>
     <addaction name="actionFind"/>
@@ -170,9 +170,9 @@
     <string>Copy</string>
    </property>
   </action>
-  <action name="actionPast">
+  <action name="actionPaste">
    <property name="text">
-    <string>Past</string>
+    <string>Paste</string>
    </property>
   </action>
   <action name="actionUndo_2">
@@ -292,6 +292,38 @@
     <hint type="destinationlabel">
      <x>278</x>
      <y>265</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionUndo_2</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>memo</receiver>
+   <slot>undo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>278</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPaste</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>memo</receiver>
+   <slot>paste()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>278</x>
+     <y>264</y>
     </hint>
    </hints>
   </connection>

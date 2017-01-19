@@ -3,7 +3,7 @@
 #include "mainwindow.h"
 #include "unsavedfilestate.h"
 
-SavedFileState::SavedFileState()
+SavedFileState::~SavedFileState()
 {
 }
 
@@ -13,11 +13,22 @@ void SavedFileState::updateState(MainWindow &obj)
     delete this;
 }
 
-void SavedFileState::save(MainWindow& obj)
+void SavedFileState::save(MainWindow&)
 {
 }
 
 void SavedFileState::close(MainWindow &obj)
 {
     obj.close();
+}
+
+void SavedFileState::open(MainWindow &obj)
+{
+    obj.open();
+}
+
+void SavedFileState::newDoc(MainWindow &obj)
+{
+    obj.mFile.setFileName(QString());
+    obj.erase();
 }

@@ -7,7 +7,8 @@
 #include <QDebug>
 #include <QCloseEvent>
 
-UnsavedFileState::UnsavedFileState()
+
+UnsavedFileState::~UnsavedFileState()
 {
 
 }
@@ -42,5 +43,24 @@ void UnsavedFileState::close(MainWindow &obj)
             obj.stateSave->updateState(obj);
         }
         obj.close();
+    }
+}
+
+void UnsavedFileState::open(MainWindow &obj)
+{
+    SaveDialog askSave(0, obj.mFile, obj.getPlainText());
+    if(QDialog::Accepted == askSave.exec())
+    {
+        obj.open();
+    }
+}
+
+void UnsavedFileState::newDoc(MainWindow &obj)
+{
+    SaveDialog askSave(0, obj.mFile, obj.getPlainText());
+    if(QDialog::Accepted == askSave.exec())
+    {
+        obj.mFile.setFileName(QString());
+        obj.erase();
     }
 }

@@ -8,7 +8,7 @@
 
 QString saveAs()
 {
-    QFileDialog askFile(0, "Open File...", QDir::homePath(), "Text File (*.txt)");
+    QFileDialog askFile(0, "Save as...", QDir::homePath(), "Text File (*.txt)");
     askFile.setAcceptMode(QFileDialog::AcceptSave);
     askFile.setFileMode(QFileDialog::AnyFile);
     if(askFile.exec()){
