@@ -23,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     findMenu(0),
     replaceMenu(0),
-    mGoToMenu(0)
+    mGoToMenu(0),
+    mFontMenu(0)
 {
     stateSave = new SavedFileState;
     ui->setupUi(this);
@@ -44,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionReplace, SIGNAL(triggered(bool)), this, SLOT(slotReplace()), Qt::UniqueConnection);
     connect(ui->actionGo_to, SIGNAL(triggered(bool)), this, SLOT(slotGoTo()), Qt::UniqueConnection);
     connect(ui->actionTime_Date, SIGNAL(triggered(bool)), this, SLOT(slotInserData()), Qt::UniqueConnection);
+    connect(ui->actionFont, SIGNAL(triggered(bool)), this, SLOT(slotFont()), Qt::UniqueConnection);
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
@@ -174,6 +176,11 @@ void MainWindow::slotInserData()
     auto pointer = ui->memo->textCursor();
     pointer.insertText(QString("%1 - %2").arg(QDate::currentDate().toString()).arg(QTime::currentTime().toString()));
     ui->memo->setTextCursor(pointer);
+}
+
+void MainWindow::slotFont()
+{
+    mFontMenu.exec();
 }
 
 void MainWindow::open()

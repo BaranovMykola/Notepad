@@ -11,6 +11,7 @@
 #include "finddialog.h"
 #include "replacedialog.h"
 #include "gotodialog.h"
+#include "fontdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -39,6 +40,7 @@ public slots:
     void slotReplace();
     void slotGoTo();
     void slotInserData();
+    void slotFont();
 private:
     void open();
     void save();
@@ -58,6 +60,8 @@ private:
     FindDialog findMenu;
     ReplaceDialog replaceMenu;
     GoToDialog mGoToMenu;
+    FontDialog mFontMenu;
+
 };
 
 #endif // MAINWINDOW_H
