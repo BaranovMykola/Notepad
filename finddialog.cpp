@@ -41,10 +41,23 @@ void FindDialog::slotCancel()
 
 void FindDialog::slotFindNext()
 {
-    findNext(false, ui->whatFind->text());
+    Direction type;
+    if(ui->down->isChecked())
+    {
+        type = Direction::Down;
+    }
+    else if(ui->up->isChecked())
+    {
+        type = Direction::Up;
+    }
+    else
+    {
+        errorMessage("", UndefinedDirectionMessage);
+    }
+    findNext(ui->whatFind->text(), type, ui->matchCase->isChecked(), true);
 }
 
-bool FindDialog::findNext(bool custom, QString subject)
+bool FindDialog::findNext(QString subject, Direction type, bool matchCase, bool errorReport)
 {
     auto pointer = memo->textCursor();
     if(subject.isEmpty())
@@ -57,7 +70,7 @@ bool FindDialog::findNext(bool custom, QString subject)
         qDebug() << "position: " << pointer.position();
         QString data = memo->toPlainText();
 //        QString subject = ui->whatFind->text();
-        if(!ui->matchCase->isChecked())
+        if(!matchCase)
         {
             data = data.toLower();
             subject = subject.toLower();
@@ -66,13 +79,13 @@ bool FindDialog::findNext(bool custom, QString subject)
         int firstPos;
         int secondPos;
         QString::iterator beg = std::next(data.begin(), pointer.position());
-        if(ui->down->isChecked() || custom)
+        if(type == Direction::Down)
         {
             result = std::search(beg, data.end(), subject.begin(), subject.end());
             firstPos = std::distance(data.begin(), result);
             secondPos = firstPos+subject.length();
         }
-        else if(ui->up->isChecked())
+        else if(type == Direction::Up)
         {
             pointer.setPosition(pointer.selectionStart()); //take fisrt pos of selection.
             pointer.clearSelection();
@@ -82,10 +95,15 @@ bool FindDialog::findNext(bool custom, QString subject)
             firstPos = std::distance(data.begin(), result)-subject.length();
             secondPos = firstPos+subject.length();
         }
+        else
+        {
+            errorMessage("", UndefinedDirectionMessage);
+        }
         if( ( result == data.end() && ui->down->isChecked() ) || ( result == data.begin() && ui->up->isChecked() ) )
         {
-            if(!custom)
+            if(errorReport)
             {
+                pointer.clearSelection();
                 errorMessage(subject);
             }
             return false;

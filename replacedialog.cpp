@@ -29,7 +29,7 @@ void ReplaceDialog::slotCancel()
 
 bool ReplaceDialog::slotFindNext()
 {
-    return mFindMenu->findNext(true, ui->findWhat->text());
+    return mFindMenu->findNext(ui->findWhat->text(), FindDialog::Direction::Down, ui->matchCase->isChecked());
 }
 
 bool ReplaceDialog::slotReplace()
