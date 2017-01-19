@@ -17,13 +17,15 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    findMenu(0)
+    findMenu(0),
+    replaceMenu(0)
 {
     stateSave = new SavedFileState;
     ui->setupUi(this);
 
     findMenu.setMemo(ui->memo);
-//    findMenu.setMain(this);
+    replaceMenu.setFindDialog(&findMenu);
+
     connect(ui->actionOpen, SIGNAL(triggered(bool)), this, SLOT(slotOpenFile()), Qt::UniqueConnection);
     connect(ui->actionSave, SIGNAL(triggered(bool)), this, SLOT(slotSaveFile()), Qt::UniqueConnection);
     connect(ui->actionExit, SIGNAL(triggered(bool)), this, SLOT(slotClose()), Qt::UniqueConnection);
@@ -33,7 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionFind, SIGNAL(triggered(bool)), this, SLOT(slotFind()), Qt::UniqueConnection);
     connect(ui->actionFind_next, SIGNAL(triggered(bool)), this, SLOT(slotFindNext()), Qt::UniqueConnection);
     connect(findMenu.ui->whatFind, SIGNAL(editingFinished()), this, SLOT(slotEditFindWord()), Qt::UniqueConnection);
-    connect(ui->actionNew, SIGNAL(triggered(bool)), this,SLOT(slotNewFile()), Qt::UniqueConnection);
+    connect(ui->actionNew, SIGNAL(triggered(bool)), this, SLOT(slotNewFile()), Qt::UniqueConnection);
+    connect(ui->actionReplace, SIGNAL(triggered(bool)), this, SLOT(slotReplace()), Qt::UniqueConnection);
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
@@ -46,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionPaste->setShortcut(QKeySequence::Paste);
     ui->actionCut_2->setShortcut(QKeySequence::Cut);
     ui->actionNew->setShortcut(QKeySequence::New);
+    ui->actionReplace->setShortcut(QKeySequence::Replace);
 
 }
 
@@ -137,6 +141,11 @@ void MainWindow::slotFindNext()
 void MainWindow::slotEditFindWord()
 {
     ui->actionFind_next->setEnabled(!findMenu.ui->whatFind->text().isEmpty());
+}
+
+void MainWindow::slotReplace()
+{
+    replaceMenu.show();
 }
 
 void MainWindow::open()

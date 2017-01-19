@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     abstractsavefilestate.cpp \
     savedialog.cpp \
     savefilefunction.cpp \
-    finddialog.cpp
+    finddialog.cpp \
+    replacedialog.cpp
 
 HEADERS  += mainwindow.h \
     undefinedfilestate.h \
@@ -30,10 +31,12 @@ HEADERS  += mainwindow.h \
     savedialog.h \
     savefilefunction.h \
     constants.h \
-    finddialog.h
+    finddialog.h \
+    replacedialog.h
 
 FORMS    += mainwindow.ui \
     savedialog.ui \
-    finddialog.ui
+    finddialog.ui \
+    replacedialog.ui
 
 CONFIG += c++14

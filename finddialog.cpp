@@ -39,10 +39,10 @@ void FindDialog::slotCancel()
     this->hide();
 }
 
-void FindDialog::slotFindNext()
+void FindDialog::slotFindNext(bool custom, QString text)
 {
     auto pointer = memo->textCursor();
-    if(ui->whatFind->text().isEmpty())
+    if(ui->whatFind->text().isEmpty() && !custom)
     {
         errorMessage("", "Cannot found empty word");
         pointer.clearSelection();
@@ -61,8 +61,12 @@ void FindDialog::slotFindNext()
         int firstPos;
         int secondPos;
         QString::iterator beg = std::next(data.begin(), pointer.position());
-        if(ui->down->isChecked())
+        if(ui->down->isChecked() || custom)
         {
+            if(custom)
+            {
+                subject = text;
+            }
             result = std::search(beg, data.end(), subject.begin(), subject.end());
             firstPos = std::distance(data.begin(), result);
             secondPos = firstPos+subject.length();
