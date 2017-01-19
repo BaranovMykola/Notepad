@@ -5,6 +5,12 @@
 //#include <QStringList>
 //#include <QStringListModel>
 
+#include <QListWidgetItem>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QFontDatabase>
+#include <QStringList>
+
 #include "fontmodel.h"
 
 FontDialog::FontDialog(QWidget *parent) :
@@ -12,13 +18,25 @@ FontDialog::FontDialog(QWidget *parent) :
     ui(new Ui::FontDialog)
 {
     ui->setupUi(this);
-    QStringList lst;
-//    QStringListModel* m = new QStringListModel;
-//    QStringListModel* m = new QStringListModel;
-    FontModel* m = new FontModel;
-    lst << "abc" << "ABC" << "???";
-    m->setStringList(lst);
-    ui->listView->setModel(m);
+    QFontDatabase base;
+    QStringList lst = base.families();
+
+for(auto i : lst)
+{
+    QWidget* wgt = new QWidget;
+    QLayout* l = new QHBoxLayout;
+    QLabel* customFont = new QLabel("CUSTOM LABEL DONE");
+    auto font = customFont->font();
+    font.setFamily(i);
+    customFont->setFont(font);
+    l->addWidget( customFont );
+    wgt->setLayout( l );
+
+    QListWidgetItem* item = new QListWidgetItem( ui->listWidget );
+    item->setSizeHint( wgt->sizeHint() );
+    ui->listWidget->setItemWidget( item, wgt );
+}
+
 }
 
 FontDialog::~FontDialog()

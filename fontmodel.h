@@ -20,7 +20,7 @@ class /*Q_GUI_EXPORT*/ FontModel : public QAbstractListModel
 //    Q_OBJECT
 public:
     explicit FontModel(QObject *parent = 0);
-    FontModel(const QStringList &strings, QObject *parent = 0);
+    FontModel(const QVector<QLabel*> &labels, QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
@@ -34,8 +34,8 @@ public:
 
     void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
-    QStringList stringList() const;
-    void setStringList(const QStringList &strings);
+    QVector<QLabel *> stringList() const;
+    void setStringList(const QVector<QLabel *> &vlb_);
 
     Qt::DropActions supportedDropActions() const;
 

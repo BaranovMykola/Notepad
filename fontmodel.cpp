@@ -11,8 +11,8 @@ FontModel::FontModel(QObject *parent)
 }
 
 
-FontModel::FontModel(const QStringList &strings, QObject *parent)
-    : QAbstractListModel(parent), lst(strings)
+FontModel::FontModel(const QVector<QLabel *> &labels, QObject *parent)
+    : QAbstractListModel(parent), vlb(labels)
 {
 
 }
@@ -23,7 +23,7 @@ int FontModel::rowCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return lst.count();
+    return vlb.count();
 }
 
 QVariant FontModel::data(const QModelIndex &index, int role) const
@@ -32,7 +32,11 @@ QVariant FontModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     if (role == Qt::DisplayRole || role == Qt::EditRole)
-        return lst.at(index.row());
+    {
+        return (QString("LABEL"));
+//        QLabel* p = vlb.at(index.row());
+//        QLabel o = std::move(*p);
+    }
 
     return QVariant();
 }
@@ -50,7 +54,8 @@ bool FontModel::setData(const QModelIndex &index, const QVariant &value, int rol
 {
     if (index.row() >= 0 && index.row() < lst.size()
         && (role == Qt::EditRole || role == Qt::DisplayRole)) {
-        lst.replace(index.row(), value.toString());
+//        lst.replace(index.row(), value.toString());
+//        vlb.replace(index.row(), value.);
         emit dataChanged(index, index);
         return true;
     }
@@ -66,7 +71,7 @@ bool FontModel::insertRows(int row, int count, const QModelIndex &parent)
     beginInsertRows(QModelIndex(), row, row + count - 1);
 
     for (int r = 0; r < count; ++r)
-        lst.insert(row, QString());
+        vlb.insert(row, new QLabel("labelINSERTED"));
 
     endInsertRows();
 
@@ -82,7 +87,7 @@ bool FontModel::removeRows(int row, int count, const QModelIndex &parent)
     beginRemoveRows(QModelIndex(), row, row + count - 1);
 
     for (int r = 0; r < count; ++r)
-        lst.removeAt(row);
+        vlb.removeAt(row);
 
     endRemoveRows();
 
@@ -129,16 +134,16 @@ void FontModel::sort(int, Qt::SortOrder order)
     emit layoutChanged();
 }
 
-QStringList FontModel::stringList() const
+QVector<QLabel*> FontModel::stringList() const
 {
-    return lst;
+    return vlb;
 }
 
 
-void FontModel::setStringList(const QStringList &strings)
+void FontModel::setStringList(const QVector<QLabel*> &vlb_)
 {
     emit beginResetModel();
-    lst = strings;
+    vlb = vlb_;
     emit endResetModel();
 }
 
