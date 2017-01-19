@@ -25,8 +25,9 @@ public:
     void setMemo(QPlainTextEdit* _memo);
 public slots:
     void slotCancel();
-    void slotFindNext(bool custom = false, QString text = QString());
+    void slotFindNext();
 private:
+    bool findNext(bool custom, QString subject);
     void errorMessage(QString subject, QString message = NotFoundMessage);
     void selectText(int from, int to, QTextCursor& pointer);
 

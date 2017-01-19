@@ -2,6 +2,7 @@
 #include "ui_replacedialog.h"
 
 #include <QPlainTextEdit>
+#include <iostream>
 
 ReplaceDialog::ReplaceDialog(QWidget *parent) :
     QDialog(parent),
@@ -11,6 +12,7 @@ ReplaceDialog::ReplaceDialog(QWidget *parent) :
     connect(ui->buttonCancel, SIGNAL(clicked(bool)), this, SLOT(slotCancel()), Qt::UniqueConnection);
     connect(ui->buttonFindNext, SIGNAL(clicked(bool)), this, SLOT(slotFindNext()), Qt::UniqueConnection);
     connect(ui->buttonReplace, SIGNAL(clicked(bool)), this, SLOT(slotReplace()), Qt::UniqueConnection);
+    connect(ui->buttonReplaceAll, SIGNAL(clicked(bool)), this, SLOT(slotReplaceAll()), Qt::UniqueConnection);
 
     ui->buttonFindNext->setShortcut(QKeySequence::FindNext);
 }
@@ -25,19 +27,31 @@ void ReplaceDialog::slotCancel()
     this->hide();
 }
 
-void ReplaceDialog::slotFindNext()
+bool ReplaceDialog::slotFindNext()
 {
-    mFindMenu->slotFindNext(true, ui->findWhat->text());
+    return mFindMenu->findNext(true, ui->findWhat->text());
 }
 
-void ReplaceDialog::slotReplace()
+bool ReplaceDialog::slotReplace()
 {
+    bool founded = slotFindNext();
     auto pointer = mFindMenu->memo->textCursor();
+    if(founded)
     {
         pointer.removeSelectedText();
         pointer.insertText(ui->replaceWith->text());
     }
-    slotFindNext();
+    return founded;
+}
+
+void ReplaceDialog::slotReplaceAll()
+{
+    int replaceCount = 0;
+    while(slotReplace())
+    {
+        ++replaceCount;
+    }
+    mFindMenu->errorMessage(QString::number(replaceCount), ReplaceMessage);
 }
 
 void ReplaceDialog::setFindDialog(FindDialog* findMenu)

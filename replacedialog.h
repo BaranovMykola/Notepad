@@ -18,8 +18,9 @@ public:
     void setFindDialog(FindDialog* findMenu);
 public slots:
     void slotCancel();
-    void slotFindNext();
-    void slotReplace();
+    bool slotFindNext();
+    bool slotReplace();
+    void slotReplaceAll();
 private:
     Ui::ReplaceDialog *ui;
     FindDialog* mFindMenu;

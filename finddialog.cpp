@@ -39,7 +39,12 @@ void FindDialog::slotCancel()
     this->hide();
 }
 
-void FindDialog::slotFindNext(bool custom, QString text)
+void FindDialog::slotFindNext()
+{
+    findNext(false, ui->whatFind->text());
+}
+
+bool FindDialog::findNext(bool custom, QString subject)
 {
     auto pointer = memo->textCursor();
     if(ui->whatFind->text().isEmpty() && !custom)
@@ -63,10 +68,6 @@ void FindDialog::slotFindNext(bool custom, QString text)
         QString::iterator beg = std::next(data.begin(), pointer.position());
         if(ui->down->isChecked() || custom)
         {
-            if(custom)
-            {
-                subject = text;
-            }
             result = std::search(beg, data.end(), subject.begin(), subject.end());
             firstPos = std::distance(data.begin(), result);
             secondPos = firstPos+subject.length();
@@ -81,15 +82,20 @@ void FindDialog::slotFindNext(bool custom, QString text)
             firstPos = std::distance(data.begin(), result)-subject.length();
             secondPos = firstPos+subject.length();
         }
-
         if( ( result == data.end() && ui->down->isChecked() ) || ( result == data.begin() && ui->up->isChecked() ) )
         {
-            errorMessage(subject);
+            if(!custom)
+            {
+                errorMessage(subject);
+            }
+            return false;
+            qDebug() << "Ended of file";
         }
         else
         {
             qDebug() << "Founded '" << subject << "' at " << std::distance(data.begin(), result) << "position. Moving cursor...";
             selectText(firstPos, secondPos, pointer);
+            return true;
         }
     }
 }
