@@ -32,7 +32,29 @@ bool ReplaceDialog::slotFindNext()
     return mFindMenu->findNext(ui->findWhat->text(), FindDialog::Direction::Down, ui->matchCase->isChecked());
 }
 
-bool ReplaceDialog::slotReplace()
+void ReplaceDialog::slotReplace()
+{
+    replace(true);
+}
+
+void ReplaceDialog::slotReplaceAll()
+{
+    int replaceCount = 0;
+    while(replace(false))
+    {
+        ++replaceCount;
+    }
+    if(replaceCount)
+    {
+        mFindMenu->errorMessage(QString::number(replaceCount), ReplaceMessage);
+    }
+    else
+    {
+        mFindMenu->errorMessage(ui->findWhat->text(), NotFoundMessage);
+    }
+}
+
+bool ReplaceDialog::replace(bool errorReport)
 {
     bool founded = slotFindNext();
     auto pointer = mFindMenu->memo->textCursor();
@@ -41,17 +63,11 @@ bool ReplaceDialog::slotReplace()
         pointer.removeSelectedText();
         pointer.insertText(ui->replaceWith->text());
     }
-    return founded;
-}
-
-void ReplaceDialog::slotReplaceAll()
-{
-    int replaceCount = 0;
-    while(slotReplace())
+    else if(errorReport)
     {
-        ++replaceCount;
+        mFindMenu->errorMessage(ui->findWhat->text(), NotFoundMessage);
     }
-    mFindMenu->errorMessage(QString::number(replaceCount), ReplaceMessage);
+    return founded;
 }
 
 void ReplaceDialog::setFindDialog(FindDialog* findMenu)
