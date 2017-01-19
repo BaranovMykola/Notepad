@@ -10,6 +10,7 @@
 #include <QTextCursor>
 #include <QMessageBox>
 #include <iostream>
+
 #include "mainwindow.h"
 
 FindDialog::FindDialog(QWidget *parent) :

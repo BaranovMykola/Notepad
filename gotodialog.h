@@ -16,6 +16,8 @@ public:
     ~GoToDialog();
 
 private:
+    friend class MainWindow;
+
     Ui::GoToDialog *ui;
 };
 

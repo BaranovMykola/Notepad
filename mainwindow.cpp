@@ -12,13 +12,16 @@
 #include "unsavedfilestate.h"
 #include "savedfilestate.h"
 #include "savefilefunction.h"
+
 #include "ui_finddialog.h"
+#include "ui_gotodialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     findMenu(0),
-    replaceMenu(0)
+    replaceMenu(0),
+    mGoToMenu(0)
 {
     stateSave = new SavedFileState;
     ui->setupUi(this);
@@ -37,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(findMenu.ui->whatFind, SIGNAL(editingFinished()), this, SLOT(slotEditFindWord()), Qt::UniqueConnection);
     connect(ui->actionNew, SIGNAL(triggered(bool)), this, SLOT(slotNewFile()), Qt::UniqueConnection);
     connect(ui->actionReplace, SIGNAL(triggered(bool)), this, SLOT(slotReplace()), Qt::UniqueConnection);
+    connect(ui->actionGo_to, SIGNAL(triggered(bool)), this, SLOT(slotGoTo()), Qt::UniqueConnection);
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
@@ -50,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionCut_2->setShortcut(QKeySequence::Cut);
     ui->actionNew->setShortcut(QKeySequence::New);
     ui->actionReplace->setShortcut(QKeySequence::Replace);
+    ui->actionGo_to->setShortcut(QKeySequence::Forward);
 
 }
 
@@ -146,6 +151,17 @@ void MainWindow::slotEditFindWord()
 void MainWindow::slotReplace()
 {
     replaceMenu.show();
+}
+
+void MainWindow::slotGoTo()
+{
+    if(QDialog::Accepted == mGoToMenu.exec())
+    {
+        auto pointer = ui->memo->textCursor();
+        pointer.setPosition(0);
+        pointer.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, mGoToMenu.ui->line->text().toInt());
+        ui->memo->setTextCursor(pointer);
+    }
 }
 
 void MainWindow::open()

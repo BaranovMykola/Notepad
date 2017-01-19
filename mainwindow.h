@@ -10,6 +10,7 @@
 #include "constants.h"
 #include "finddialog.h"
 #include "replacedialog.h"
+#include "gotodialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -36,6 +37,7 @@ public slots:
     void slotFindNext();
     void slotEditFindWord();
     void slotReplace();
+    void slotGoTo();
 private:
     void open();
     void save();
@@ -54,6 +56,7 @@ private:
     QString mPathFile;
     FindDialog findMenu;
     ReplaceDialog replaceMenu;
+    GoToDialog mGoToMenu;
 };
 
 #endif // MAINWINDOW_H

@@ -5,7 +5,7 @@
 #include <QTextCursor>
 #include <QLineEdit>
 
-#include "finddialog.h"
+//#include "finddialog.h"
 #include "constants.h"
 
 class QPlainTextEdit;
