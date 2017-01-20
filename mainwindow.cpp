@@ -30,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     stateSave = new SavedFileState;
     ui->setupUi(this);
-
     findMenu.setMemo(ui->memo);
     replaceMenu.setFindDialog(&findMenu);
     connect(ui->actionOpen, SIGNAL(triggered(bool)), this, SLOT(slotOpenFile()), Qt::UniqueConnection);

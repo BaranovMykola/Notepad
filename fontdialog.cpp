@@ -5,7 +5,6 @@
 #include <QListWidgetItem>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QFontDatabase>
 #include <QStringList>
 #include <QProgressBar>
 #include <QTimer>
@@ -13,6 +12,8 @@
 #include <QtConcurrent/QtConcurrent>
 
 #include <iterator>
+
+#include "constants.h"
 
 #include "ui_loadngdialog.h"
 
@@ -23,6 +24,8 @@ FontDialog::FontDialog(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->fontList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotFamily()), Qt::UniqueConnection);
+//    connect(ui->fontList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
+//    connect(ui->styleList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
 }
 
 FontDialog::~FontDialog()
@@ -35,32 +38,61 @@ void FontDialog::slotFamily()
     QListWidgetItem* item = ui->fontList->currentItem();
     QLabel* selectedLabel = dynamic_cast<QLabel*>(ui->fontList->itemWidget(item));
     ui->example->setFont(selectedLabel->font());
+    populateStyles(selectedLabel->text());
 }
 
 void FontDialog::populateFonts()
 {
-    QFontDatabase base;
     QStringList lst = base.families();
 
     loading.show();
     loading.ui->progressBar->setRange(0, std::distance(lst.begin(), lst.end()));
-
     int iteration = 0;
     for(auto i : lst)
     {
         loading.ui->progressBar->setValue(++iteration);
         QCoreApplication::processEvents(QEventLoop::AllEvents, 0);
-        QWidget* widget = new QWidget;
-        QLayout* box = new QHBoxLayout;
         QLabel* customFont = new QLabel(i);
         auto font = customFont->font();
         font.setFamily(i);
-        customFont->setFont(font);
-        box->addWidget(customFont);
-        widget->setLayout(box);
+        customFont->setFont(base.font(i, "Normal", DefaultFontSize));
         QListWidgetItem* item = new QListWidgetItem( ui->fontList );
-        item->setSizeHint(widget->sizeHint());
         ui->fontList->setItemWidget(item, customFont);
     }
     loading.close();
+}
+
+void FontDialog::populateStyles(QString family)
+{
+    QStringList lst = base.styles(family);
+    ui->styleList->clear();
+    for(auto i : lst)
+    {
+        QLabel* newItem = new QLabel(i);
+        newItem->setFont(base.font(family, i, DefaultFontSize));
+        QListWidgetItem* item = new QListWidgetItem(ui->styleList);
+        ui->styleList->setItemWidget(item, newItem);
+
+    }
+    populateSize(family, "Normal");
+}
+
+void FontDialog::populateSize(QString family, QString style)
+{
+    auto lst = base.pointSizes(family, style);
+    QStringList pointTextList;
+    for(auto i : lst)
+    {
+        pointTextList.append(QString::number(i));
+    }
+    QStringListModel* model = new QStringListModel;
+    model->setStringList(pointTextList);
+    ui->sizeList->setModel(model);
+    slotUpdateExample();
+
+}
+
+void FontDialog::slotUpdateExample()
+{
+
 }
