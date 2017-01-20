@@ -24,7 +24,7 @@ SOURCES += main.cpp\
     replacedialog.cpp \
     gotodialog.cpp \
     fontdialog.cpp \
-    fontmodel.cpp
+    loadingdialog.cpp
 
 HEADERS  += mainwindow.h \
     undefinedfilestate.h \
@@ -38,13 +38,14 @@ HEADERS  += mainwindow.h \
     replacedialog.h \
     gotodialog.h \
     fontdialog.h \
-    fontmodel.h
+    loadingdialog.h
 
 FORMS    += mainwindow.ui \
     savedialog.ui \
     finddialog.ui \
     replacedialog.ui \
     gotodialog.ui \
-    fontdialog.ui
+    fontdialog.ui \
+    loadingdialog.ui
 
 CONFIG += c++14

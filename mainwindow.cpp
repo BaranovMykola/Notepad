@@ -9,6 +9,7 @@
 #include <iterator>
 #include <QDate>
 #include <QTime>
+#include <QtConcurrent/QtConcurrent>
 
 #include "abstractsavefilestate.h"
 #include "unsavedfilestate.h"
@@ -24,7 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     findMenu(0),
     replaceMenu(0),
     mGoToMenu(0),
-    mFontMenu(0)
+    mFontMenu(0),
+    mFontLoaded(false)
 {
     stateSave = new SavedFileState;
     ui->setupUi(this);
@@ -178,9 +180,19 @@ void MainWindow::slotInserData()
     ui->memo->setTextCursor(pointer);
 }
 
+void aFunction()
+{
+
+}
+
 void MainWindow::slotFont()
 {
-    mFontMenu.exec();
+    if(!mFontLoaded)
+    {
+        mFontMenu.populateFont();
+        mFontLoaded = true;
+    }
+    mFontMenu.show();
 }
 
 void MainWindow::open()

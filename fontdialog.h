@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "loadingdialog.h"
+
 namespace Ui {
 class FontDialog;
 }
@@ -14,9 +16,15 @@ class FontDialog : public QDialog
 public:
     explicit FontDialog(QWidget *parent = 0);
     ~FontDialog();
-
 private:
+
+    friend class MainWindow;
+
+    void populateFont();
+    void updateProgressBar(int value);
+
     Ui::FontDialog *ui;
+    LoadingDialog loading;
 };
 
 #endif // FONTDIALOG_H

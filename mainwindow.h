@@ -61,6 +61,7 @@ private:
     ReplaceDialog replaceMenu;
     GoToDialog mGoToMenu;
     FontDialog mFontMenu;
+    bool mFontLoaded;
 
 };
 
