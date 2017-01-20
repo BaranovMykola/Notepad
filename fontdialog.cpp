@@ -14,17 +14,13 @@
 
 #include <iterator>
 
-#include "ui_fontdialog.h"
+#include "ui_loadngdialog.h"
 
 FontDialog::FontDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::FontDialog)
 {
     ui->setupUi(this);
-
-//    populateFont();
-
-
 }
 
 FontDialog::~FontDialog()
@@ -32,35 +28,30 @@ FontDialog::~FontDialog()
     delete ui;
 }
 
-void FontDialog::populateFont()
+void FontDialog::populateFonts()
 {
     QFontDatabase base;
     QStringList lst = base.families();
+
     loading.show();
-    loading.setRange(0, std::distance(lst.begin(), lst.end()));
-    int value = 0;
+    loading.ui->progressBar->setRange(0, std::distance(lst.begin(), lst.end()));
+
+    int iteration = 0;
     for(auto i : lst)
     {
-        loading.setValue(++value);
-        updateProgressBar(value);
+        loading.ui->progressBar->setValue(++iteration);
         QCoreApplication::processEvents(QEventLoop::AllEvents, 0);
-        QWidget* wgt = new QWidget;
-        QLayout* l = new QHBoxLayout;
+        QWidget* widget = new QWidget;
+        QLayout* box = new QHBoxLayout;
         QLabel* customFont = new QLabel(i);
         auto font = customFont->font();
         font.setFamily(i);
         customFont->setFont(font);
-        l->addWidget( customFont );
-        wgt->setLayout( l );
-
+        box->addWidget(customFont);
+        widget->setLayout(box);
         QListWidgetItem* item = new QListWidgetItem( ui->fontList );
-        item->setSizeHint( wgt->sizeHint() );
-        ui->fontList->setItemWidget( item, wgt );
+        item->setSizeHint(widget->sizeHint());
+        ui->fontList->setItemWidget(item, widget);
     }
     loading.close();
-}
-
-void FontDialog::updateProgressBar(int value)
-{
-    loading.setValue(value);
 }

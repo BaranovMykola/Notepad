@@ -4,11 +4,9 @@
 #include <QDialog>
 #include <QProgressBar>
 
-
 namespace Ui {
 class LoadingDialog;
 }
-
 
 class LoadingDialog : public QDialog
 {
@@ -16,8 +14,6 @@ class LoadingDialog : public QDialog
 
 public:
     explicit LoadingDialog(QWidget *parent = 0);
-    void setRange(int from, int to);
-    void setValue(int value);
     ~LoadingDialog();
 
 private:

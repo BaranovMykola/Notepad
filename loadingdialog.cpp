@@ -10,16 +10,6 @@ LoadingDialog::LoadingDialog(QWidget *parent) :
     ui->setupUi(this);
 }
 
-void LoadingDialog::setRange(int from, int to)
-{
-    ui->progressBar->setRange(from, to);
-}
-
-void LoadingDialog::setValue(int value)
-{
-    ui->progressBar->setValue(value);
-}
-
 LoadingDialog::~LoadingDialog()
 {
     delete ui;

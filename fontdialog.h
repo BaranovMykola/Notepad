@@ -20,8 +20,7 @@ private:
 
     friend class MainWindow;
 
-    void populateFont();
-    void updateProgressBar(int value);
+    void populateFonts();
 
     Ui::FontDialog *ui;
     LoadingDialog loading;

@@ -11,8 +11,6 @@
 #include <QMessageBox>
 #include <iostream>
 
-#include "mainwindow.h"
-
 FindDialog::FindDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::FindDialog)

@@ -33,7 +33,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     findMenu.setMemo(ui->memo);
     replaceMenu.setFindDialog(&findMenu);
-
     connect(ui->actionOpen, SIGNAL(triggered(bool)), this, SLOT(slotOpenFile()), Qt::UniqueConnection);
     connect(ui->actionSave, SIGNAL(triggered(bool)), this, SLOT(slotSaveFile()), Qt::UniqueConnection);
     connect(ui->actionExit, SIGNAL(triggered(bool)), this, SLOT(slotClose()), Qt::UniqueConnection);
@@ -189,7 +188,7 @@ void MainWindow::slotFont()
 {
     if(!mFontLoaded)
     {
-        mFontMenu.populateFont();
+        mFontMenu.populateFonts();
         mFontLoaded = true;
     }
     mFontMenu.show();
