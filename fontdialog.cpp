@@ -21,11 +21,20 @@ FontDialog::FontDialog(QWidget *parent) :
     ui(new Ui::FontDialog)
 {
     ui->setupUi(this);
+
+    connect(ui->fontList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotFamily()), Qt::UniqueConnection);
 }
 
 FontDialog::~FontDialog()
 {
     delete ui;
+}
+
+void FontDialog::slotFamily()
+{
+    QListWidgetItem* item = ui->fontList->currentItem();
+    QLabel* selectedLabel = dynamic_cast<QLabel*>(ui->fontList->itemWidget(item));
+    ui->example->setFont(selectedLabel->font());
 }
 
 void FontDialog::populateFonts()
@@ -51,7 +60,7 @@ void FontDialog::populateFonts()
         widget->setLayout(box);
         QListWidgetItem* item = new QListWidgetItem( ui->fontList );
         item->setSizeHint(widget->sizeHint());
-        ui->fontList->setItemWidget(item, widget);
+        ui->fontList->setItemWidget(item, customFont);
     }
     loading.close();
 }

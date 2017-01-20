@@ -16,6 +16,8 @@ class FontDialog : public QDialog
 public:
     explicit FontDialog(QWidget *parent = 0);
     ~FontDialog();
+public slots:
+    void slotFamily();
 private:
 
     friend class MainWindow;
