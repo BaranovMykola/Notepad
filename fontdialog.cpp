@@ -106,29 +106,29 @@ void FontDialog::populateStyles(QString family)
 
 void FontDialog::populateSize(QString family, QString style)
 {
-//    int oldSize = getSelectedSize();
+    int oldSize = getSelectedSize();
     auto lst = base.pointSizes(family, style);
     QStringList pointTextList;
     int index = 0;
     bool founded = false;
     for(auto i : lst)
     {
-//        if(i == oldSize)
-//        {
-//            founded = true;
-//        }
-//        if(!founded)
-//        {
-//            ++index;
-//        }
+        if(i == oldSize)
+        {
+            founded = true;
+        }
+        if(!founded)
+        {
+            ++index;
+        }
         pointTextList.append(QString::number(i));
     }
     QStringListModel* model = new QStringListModel;
     model->setStringList(pointTextList);
     ui->sizeList->setModel(model);
-//    QModelIndex modelIndex = model->index(index);
+    QModelIndex modelIndex = model->index(index);
 //    modelIndex.r
-//    ui->sizeList->setCurrentIndex(modelIndex);
+    ui->sizeList->setCurrentIndex(modelIndex);
     slotUpdateExample();
 
 }
@@ -141,12 +141,15 @@ QLabel* FontDialog::getSelectedLabel(QListWidget* list)
 
 int FontDialog::getSelectedSize()
 {
-    auto model = ui->sizeList->model();
-    QModelIndexList indexes = ui->sizeList->selectionModel()->selectedIndexes();
     int size = DefaultFontSize;
-    for(auto i : indexes)
+    auto model = ui->sizeList->model();
+    if(model != nullptr)
     {
-        size = i.data().toInt();
+        QModelIndexList indexes = ui->sizeList->selectionModel()->selectedIndexes();
+        for(auto i : indexes)
+        {
+            size = i.data().toInt();
+        }
     }
     return size;
 }

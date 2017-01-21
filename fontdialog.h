@@ -33,7 +33,6 @@ private:
     void populateSize(QString family, QString style);
     QLabel* getSelectedLabel(QListWidget *list);
     int getSelectedSize();
-    void restoreStyleList(QString findString);
 
     Ui::FontDialog *ui;
     LoadingDialog loading;
