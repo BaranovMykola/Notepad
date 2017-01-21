@@ -24,8 +24,11 @@ FontDialog::FontDialog(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->fontList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotFamily()), Qt::UniqueConnection);
-//    connect(ui->fontList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
-//    connect(ui->styleList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
+    connect(ui->sizeList, SIGNAL(clicked(QModelIndex)), this, SLOT(slotSize()), Qt::UniqueConnection);
+
+    connect(ui->fontList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
+    connect(ui->styleList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
+    connect(ui->sizeList, SIGNAL(clicked(QModelIndex)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
 }
 
 FontDialog::~FontDialog()
@@ -35,10 +38,17 @@ FontDialog::~FontDialog()
 
 void FontDialog::slotFamily()
 {
-    QListWidgetItem* item = ui->fontList->currentItem();
-    QLabel* selectedLabel = dynamic_cast<QLabel*>(ui->fontList->itemWidget(item));
-    ui->example->setFont(selectedLabel->font());
-    populateStyles(selectedLabel->text());
+    populateStyles(getSelectedLabel(ui->fontList)->text()); //call only after clicked -> always selected
+}
+
+void FontDialog::slotStyle()
+{
+    populateStyles(getSelectedLabel(ui->styleList)->text());
+}
+
+void FontDialog::slotSize()
+{
+
 }
 
 void FontDialog::populateFonts()
@@ -92,7 +102,44 @@ void FontDialog::populateSize(QString family, QString style)
 
 }
 
+QLabel* FontDialog::getSelectedLabel(QListWidget* list)
+{
+    QListWidgetItem* item = list->currentItem();
+    return dynamic_cast<QLabel*>(list->itemWidget(item));
+}
+
+int FontDialog::getSelectedSize()
+{
+    auto model = ui->sizeList->model();
+    QModelIndexList indexes = ui->sizeList->selectionModel()->selectedIndexes();
+    int size = DefaultFontSize;
+    for(auto i : indexes)
+    {
+        size = i.data().toInt();
+    }
+    return size;
+}
+
 void FontDialog::slotUpdateExample()
 {
+    QLabel* fontLabel = getSelectedLabel(ui->fontList);
+    QLabel* styleLabel = getSelectedLabel(ui->styleList);
 
+    int size = getSelectedSize();
+
+    QString fontName;
+    QString styleName;
+
+    if(fontLabel != nullptr)
+    {
+        fontName = fontLabel->text();
+    }
+    if(styleLabel != nullptr)
+    {
+        styleName = styleLabel->text();
+    }
+    if(!fontName.isEmpty() && !styleName.isEmpty())
+    {
+        ui->example->setFont(base.font(fontLabel->text(), styleLabel->text(), size));
+    }
 }

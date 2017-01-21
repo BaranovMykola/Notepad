@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QFontDatabase>
+#include <QListWidget>
+#include <QLabel>
 
 #include "loadingdialog.h"
 
@@ -19,6 +21,8 @@ public:
     ~FontDialog();
 public slots:
     void slotFamily();
+    void slotStyle();
+    void slotSize();
     void slotUpdateExample();
 private:
 
@@ -27,6 +31,8 @@ private:
     void populateFonts();
     void populateStyles(QString family);
     void populateSize(QString family, QString style);
+    QLabel* getSelectedLabel(QListWidget *list);
+    int getSelectedSize();
 
     Ui::FontDialog *ui;
     LoadingDialog loading;
