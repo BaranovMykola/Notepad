@@ -74,30 +74,61 @@ void FontDialog::populateFonts()
 
 void FontDialog::populateStyles(QString family)
 {
+    QLabel* oldStyle = getSelectedLabel(ui->styleList);
+    QString findString;
+    bool restored = false;
+    if(oldStyle != nullptr)
+    {
+        findString = oldStyle->text();
+    }
     QStringList lst = base.styles(family);
     ui->styleList->clear();
+    int index = 0;
     for(auto i : lst)
     {
         QLabel* newItem = new QLabel(i);
         newItem->setFont(base.font(family, i, DefaultFontSize));
         QListWidgetItem* item = new QListWidgetItem(ui->styleList);
         ui->styleList->setItemWidget(item, newItem);
+        if(newItem->text() == findString && oldStyle != nullptr)
+        {
+            restored = true;
+            ui->styleList->setCurrentItem( ui->styleList->item(ui->styleList->count()-1));
+        }
 
     }
-    populateSize(family, "Normal");
+    if(!restored && ui->styleList->count() > 0)
+    {
+        ui->styleList->setCurrentRow(0);
+    }
+    populateSize(family, getSelectedLabel(ui->styleList)->text());
 }
 
 void FontDialog::populateSize(QString family, QString style)
 {
+//    int oldSize = getSelectedSize();
     auto lst = base.pointSizes(family, style);
     QStringList pointTextList;
+    int index = 0;
+    bool founded = false;
     for(auto i : lst)
     {
+//        if(i == oldSize)
+//        {
+//            founded = true;
+//        }
+//        if(!founded)
+//        {
+//            ++index;
+//        }
         pointTextList.append(QString::number(i));
     }
     QStringListModel* model = new QStringListModel;
     model->setStringList(pointTextList);
     ui->sizeList->setModel(model);
+//    QModelIndex modelIndex = model->index(index);
+//    modelIndex.r
+//    ui->sizeList->setCurrentIndex(modelIndex);
     slotUpdateExample();
 
 }
