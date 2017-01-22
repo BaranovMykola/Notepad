@@ -5,6 +5,7 @@
 #include <QFontDatabase>
 #include <QListWidget>
 #include <QLabel>
+#include <QFont>
 
 #include "loadingdialog.h"
 
@@ -19,11 +20,13 @@ class FontDialog : public QDialog
 public:
     explicit FontDialog(QWidget *parent = 0);
     ~FontDialog();
+    QFont getFont();
 public slots:
     void slotFamily();
     void slotStyle();
     void slotSize();
     void slotUpdateExample();
+    void slotMoreFonts();
 private:
 
     friend class MainWindow;

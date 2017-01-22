@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QThread>
 #include <QtConcurrent/QtConcurrent>
+#include <QProcess>
 
 #include <iterator>
 
@@ -29,11 +30,18 @@ FontDialog::FontDialog(QWidget *parent) :
     connect(ui->fontList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
     connect(ui->styleList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
     connect(ui->sizeList, SIGNAL(clicked(QModelIndex)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
+
+    connect(ui->linkFont, SIGNAL(linkActivated(QString)), this, SLOT(slotMoreFonts()), Qt::UniqueConnection);
 }
 
 FontDialog::~FontDialog()
 {
     delete ui;
+}
+
+QFont FontDialog::getFont()
+{
+    return base.font(getSelectedLabel(ui->fontList)->text(), getSelectedLabel(ui->styleList)->text(), getSelectedSize());
 }
 
 void FontDialog::slotFamily()
@@ -69,6 +77,7 @@ void FontDialog::populateFonts()
         QListWidgetItem* item = new QListWidgetItem( ui->fontList );
         ui->fontList->setItemWidget(item, customFont);
     }
+    ui->fontList->setCurrentRow(0);
     loading.close();
 }
 
@@ -127,7 +136,6 @@ void FontDialog::populateSize(QString family, QString style)
     model->setStringList(pointTextList);
     ui->sizeList->setModel(model);
     QModelIndex modelIndex = model->index(index);
-//    modelIndex.r
     ui->sizeList->setCurrentIndex(modelIndex);
     slotUpdateExample();
 
@@ -136,7 +144,11 @@ void FontDialog::populateSize(QString family, QString style)
 QLabel* FontDialog::getSelectedLabel(QListWidget* list)
 {
     QListWidgetItem* item = list->currentItem();
-    return dynamic_cast<QLabel*>(list->itemWidget(item));
+    if(item != nullptr)
+    {
+        return dynamic_cast<QLabel*>(list->itemWidget(item));
+    }
+    return nullptr;
 }
 
 int FontDialog::getSelectedSize()
@@ -176,4 +188,10 @@ void FontDialog::slotUpdateExample()
     {
         ui->example->setFont(base.font(fontLabel->text(), styleLabel->text(), size));
     }
+}
+
+void FontDialog::slotMoreFonts()
+{
+    qDebug() << "more fonts";
+    std::system("control fonts");
 }

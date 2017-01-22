@@ -190,7 +190,17 @@ void MainWindow::slotFont()
         mFontMenu.populateFonts();
         mFontLoaded = true;
     }
-    mFontMenu.show();
+    if(QDialog::Accepted == mFontMenu.exec())
+    {
+        ui->memo->setFont(mFontMenu.getFont());
+    }
+    saveFontTo("config.json");
+}
+
+void MainWindow::saveFontTo(const QString &path)
+{
+    QDir dir;
+    qDebug() << dir.path();
 }
 
 void MainWindow::open()

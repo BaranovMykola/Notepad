@@ -42,6 +42,7 @@ public slots:
     void slotInserData();
     void slotFont();
 private:
+    void saveFontTo(const QString& path);
     void open();
     void save();
     void erase();
