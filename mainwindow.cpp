@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionTime_Date, SIGNAL(triggered(bool)), this, SLOT(slotInserData()), Qt::UniqueConnection);
     connect(ui->actionFont, SIGNAL(triggered(bool)), this, SLOT(slotFont()), Qt::UniqueConnection);
     connect(ui->actionWord_Wrap, SIGNAL(triggered(bool)), this, SLOT(slotWordWrap()), Qt::UniqueConnection);
+    connect(ui->actionStatus_Bar, SIGNAL(triggered(bool)), this, SLOT(slotStatusBar()), Qt::UniqueConnection);
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
@@ -218,6 +219,11 @@ void MainWindow::slotWordWrap()
     {
         ui->memo->setWordWrapMode(QTextOption::NoWrap);
     }
+}
+
+void MainWindow::slotStatusBar()
+{
+        ui->statusBar->setVisible(ui->actionStatus_Bar->isChecked());
 }
 
 void MainWindow::saveFontTo(const QString &path, const QString& file)

@@ -42,6 +42,7 @@ public slots:
     void slotInserData();
     void slotFont();
     void slotWordWrap();
+    void slotStatusBar();
 private:
     void saveFontTo(const QString& path, const QString &file);
     void open();
@@ -52,6 +53,7 @@ private:
     QFont readConfig(const QString& path, const QString& file);
 
     QJsonObject makeJsonFont()const;
+    QJsonObject makeJsonWordWrap();
 
     friend class SavedFileState;
     friend class UnsavedFileState;
