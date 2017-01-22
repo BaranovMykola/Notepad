@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionGo_to, SIGNAL(triggered(bool)), this, SLOT(slotGoTo()), Qt::UniqueConnection);
     connect(ui->actionTime_Date, SIGNAL(triggered(bool)), this, SLOT(slotInserData()), Qt::UniqueConnection);
     connect(ui->actionFont, SIGNAL(triggered(bool)), this, SLOT(slotFont()), Qt::UniqueConnection);
+    connect(ui->actionWord_Wrap, SIGNAL(triggered(bool)), this, SLOT(slotWordWrap()), Qt::UniqueConnection);
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
@@ -207,6 +208,18 @@ void MainWindow::slotFont()
     }
 }
 
+void MainWindow::slotWordWrap()
+{
+    if(ui->actionWord_Wrap->isChecked())
+    {
+        ui->memo->setWordWrapMode(QTextOption::WordWrap);
+    }
+    else
+    {
+        ui->memo->setWordWrapMode(QTextOption::NoWrap);
+    }
+}
+
 void MainWindow::saveFontTo(const QString &path, const QString& file)
 {
     QDir dir = qApp->applicationDirPath();;
@@ -336,4 +349,9 @@ QJsonObject MainWindow::makeJsonFont() const
         {"Size", info.pointSize()}
     };
     return dataFont;
+}
+
+QJsonObject MainWindow::makeJsonWordWrap()
+{
+    return QJsonObject { {"Word Wrap", ui->actionWord_Wrap->isChecked()} };
 }

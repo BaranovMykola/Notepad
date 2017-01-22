@@ -41,6 +41,7 @@ public slots:
     void slotGoTo();
     void slotInserData();
     void slotFont();
+    void slotWordWrap();
 private:
     void saveFontTo(const QString& path, const QString &file);
     void open();
