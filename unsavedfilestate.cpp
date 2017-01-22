@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QCloseEvent>
 
+#include "ui_mainwindow.h"
 
 UnsavedFileState::~UnsavedFileState()
 {
@@ -31,6 +32,7 @@ void UnsavedFileState::save(MainWindow& obj)
         saveFileFunction(obj.mFile, data);
         updateState(obj);
     }
+    obj.ui->statusBar->showMessage(QString("File saved as %1").arg(obj.mFile.fileName()));
 }
 
 void UnsavedFileState::close(MainWindow &obj)
@@ -62,5 +64,6 @@ void UnsavedFileState::newDoc(MainWindow &obj)
     {
         obj.mFile.setFileName(QString());
         obj.erase();
+        obj.ui->statusBar->showMessage(QString("Prepeared new file"));
     }
 }

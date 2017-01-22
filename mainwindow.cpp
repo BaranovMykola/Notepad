@@ -121,9 +121,9 @@ void MainWindow::slotSaveFile()
 void MainWindow::slotSaveAs()
 {
     mFile.setFileName(saveAs());
-    //stateSave->save(*this);
     auto data = getPlainText();
     saveFileFunction(mFile, data);
+    ui->statusBar->showMessage(QString("File saved as %1").arg(mFile.fileName()));
 }
 
 void MainWindow::slotClose()
@@ -134,9 +134,9 @@ void MainWindow::slotClose()
 void MainWindow::slotEdit()
 {
     if(dynamic_cast<UnsavedFileState*>(stateSave) == nullptr)
-    {   //if document saved
+    {
         stateSave->updateState(*this);
-        qDebug() << "edited";
+        ui->statusBar->showMessage(QString("File get unsaved changes"));
     }
     bool enable = !ui->memo->toPlainText().isEmpty();
     ui->actionFind->setEnabled(enable);
@@ -146,6 +146,14 @@ void MainWindow::slotEdit()
 void MainWindow::slotDeleteSelected()
 {
     auto cursor = ui->memo->textCursor();
+    QString etc;
+    QString selected = cursor.selectedText();
+    if(cursor.selectedText().length() > 30)
+    {
+        etc = "...";
+        selected.resize(30);
+    }
+    ui->statusBar->showMessage(tr("Selected text (%1%2) has been removed").arg(selected).arg(etc));
     cursor.removeSelectedText();
     ui->memo->setTextCursor(cursor);
 }
@@ -180,6 +188,7 @@ void MainWindow::slotGoTo()
         pointer.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, mGoToMenu.ui->line->text().toInt());
         ui->memo->setTextCursor(pointer);
     }
+    ui->statusBar->showMessage(tr("Moving cursor to %1th line").arg(QString::number(mGoToMenu.ui->line->text().toInt()+1)));
 }
 
 void MainWindow::slotInserData()
@@ -187,6 +196,7 @@ void MainWindow::slotInserData()
     auto pointer = ui->memo->textCursor();
     pointer.insertText(QString("%1 - %2").arg(QDate::currentDate().toString()).arg(QTime::currentTime().toString()));
     ui->memo->setTextCursor(pointer);
+    ui->statusBar->showMessage("Inserted current time and date");
 }
 
 void aFunction()
@@ -211,6 +221,7 @@ void MainWindow::slotFont()
 
 void MainWindow::slotWordWrap()
 {
+    QString dis;
     if(ui->actionWord_Wrap->isChecked())
     {
         ui->memo->setWordWrapMode(QTextOption::WordWrap);
@@ -218,7 +229,9 @@ void MainWindow::slotWordWrap()
     else
     {
         ui->memo->setWordWrapMode(QTextOption::NoWrap);
+        dis = "dis";
     }
+    ui->statusBar->showMessage(tr("Word wrapping %1enabled").arg(dis));
 }
 
 void MainWindow::slotStatusBar()
@@ -268,6 +281,7 @@ void MainWindow::open()
             QString data = stream.readAll();
             ui->memo->setPlainText(data);
             updateTitle(mPathFile);
+            ui->statusBar->showMessage(tr("Opened file %1").arg(mFile.fileName()));
         }
     }
 }

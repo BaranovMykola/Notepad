@@ -3,6 +3,8 @@
 #include "mainwindow.h"
 #include "unsavedfilestate.h"
 
+#include "ui_mainwindow.h"
+
 SavedFileState::~SavedFileState()
 {
 }
@@ -13,8 +15,9 @@ void SavedFileState::updateState(MainWindow &obj)
     delete this;
 }
 
-void SavedFileState::save(MainWindow&)
+void SavedFileState::save(MainWindow& obj)
 {
+    obj.ui->statusBar->showMessage(QString("File has been saved already (%1)").arg(obj.mFile.fileName()));
 }
 
 void SavedFileState::close(MainWindow &obj)
