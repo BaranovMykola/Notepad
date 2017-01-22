@@ -59,6 +59,9 @@
         <height>16777215</height>
        </size>
       </property>
+      <property name="whatsThis">
+       <string>Fonts families</string>
+      </property>
      </widget>
     </item>
    </layout>
@@ -93,6 +96,9 @@
         <height>16777215</height>
        </size>
       </property>
+      <property name="whatsThis">
+       <string>Fonts styles</string>
+      </property>
      </widget>
     </item>
    </layout>
@@ -120,7 +126,11 @@
      </widget>
     </item>
     <item>
-     <widget class="QListView" name="sizeList"/>
+     <widget class="QListView" name="sizeList">
+      <property name="whatsThis">
+       <string>Fonts sizes</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -147,6 +157,9 @@
            <pointsize>9</pointsize>
           </font>
          </property>
+         <property name="whatsThis">
+          <string>Example of selected font</string>
+         </property>
          <property name="text">
           <string>AaBbYyZz</string>
          </property>
@@ -168,6 +181,9 @@
      <width>101</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="whatsThis">
+    <string>Go to control panel...</string>
    </property>
    <property name="text">
     <string>&lt;a href=&quot;link&quot;&gt;Show more font&lt;/a&gt;</string>

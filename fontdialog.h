@@ -24,8 +24,6 @@ public:
     void updateSelectedFonts(QFont currentFont, QString style);
 public slots:
     void slotFamily();
-    void slotStyle();
-    void slotSize();
     void slotUpdateExample();
     void slotMoreFonts();
 private:

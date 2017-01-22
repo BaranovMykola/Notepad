@@ -8,6 +8,9 @@ LoadingDialog::LoadingDialog(QWidget *parent) :
     ui(new Ui::LoadingDialog)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Loading...");
+    ui->progressBar->setWhatsThis("Loading systems fonts...");
+    this->setWindowFlags(this->windowFlags() | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
 }
 
 LoadingDialog::~LoadingDialog()

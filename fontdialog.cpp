@@ -24,13 +24,11 @@ FontDialog::FontDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->fontList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotFamily()), Qt::UniqueConnection);
-    connect(ui->sizeList, SIGNAL(clicked(QModelIndex)), this, SLOT(slotSize()), Qt::UniqueConnection);
+    this->setWindowFlags(this->windowFlags() | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
 
-    connect(ui->fontList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
+    connect(ui->fontList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotFamily()), Qt::UniqueConnection);
     connect(ui->styleList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
     connect(ui->sizeList, SIGNAL(clicked(QModelIndex)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);
-
     connect(ui->linkFont, SIGNAL(linkActivated(QString)), this, SLOT(slotMoreFonts()), Qt::UniqueConnection);
 }
 
@@ -68,16 +66,6 @@ void FontDialog::slotFamily()
         oldStyle = oldLabel->text();
     }
     populateStyles(getSelectedLabel(ui->fontList)->text(), oldStyle, getSelectedSize()); //call only after clicked -> always selected
-}
-
-void FontDialog::slotStyle()
-{
-//    populateStyles(getSelectedLabel(ui->styleList)->text());
-}
-
-void FontDialog::slotSize()
-{
-
 }
 
 void FontDialog::populateFonts()
@@ -118,7 +106,6 @@ void FontDialog::populateStyles(QString family, QString oldStyle, int oldSize)
             restored = true;
             ui->styleList->setCurrentItem( ui->styleList->item(ui->styleList->count()-1));
         }
-
     }
     if(!restored && ui->styleList->count() > 0)
     {
@@ -129,7 +116,6 @@ void FontDialog::populateStyles(QString family, QString oldStyle, int oldSize)
 
 void FontDialog::populateSize(QString family, QString style, int oldSize)
 {
-//    int oldSize = getSelectedSize();
     auto lst = base.pointSizes(family, style);
     QStringList pointTextList;
     int index = 0;
@@ -152,7 +138,6 @@ void FontDialog::populateSize(QString family, QString style, int oldSize)
     QModelIndex modelIndex = model->index(index);
     ui->sizeList->setCurrentIndex(modelIndex);
     slotUpdateExample();
-
 }
 
 QLabel* FontDialog::getSelectedLabel(QListWidget* list)
@@ -206,6 +191,5 @@ void FontDialog::slotUpdateExample()
 
 void FontDialog::slotMoreFonts()
 {
-    qDebug() << "more fonts";
     std::system("control fonts");
 }
