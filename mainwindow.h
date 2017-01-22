@@ -50,6 +50,8 @@ private:
     QString getPlainText();
     QFont readConfig(const QString& path, const QString& file);
 
+    QJsonObject makeJsonFont()const;
+
     friend class SavedFileState;
     friend class UnsavedFileState;
     friend class SaveDialog;

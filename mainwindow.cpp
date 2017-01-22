@@ -222,16 +222,8 @@ void MainWindow::saveFontTo(const QString &path, const QString& file)
     QFile config(localDir.path().append("/%1").arg(file));
     config.open(QIODevice::WriteOnly);
     config.resize(0);
-    QFont fontText = ui->memo->font();
-    QFontInfo info(fontText);
 
-    QJsonObject dataFont
-        {
-        {"Family", info.family()},
-        {"Style", mStyleName},
-        {"Size", info.pointSize()}
-    };
-    qDebug() << "pointFont size:" << info.pointSize();
+    QJsonObject dataFont = makeJsonFont();
 
     QJsonDocument doc(dataFont);
 
@@ -330,4 +322,18 @@ QFont MainWindow::readConfig(const QString &path, const QString &file)
         mStyleName = fontProperties["Style"];
         return base.font(fontProperties["Family"], fontProperties["Style"], size);
     }
+}
+
+QJsonObject MainWindow::makeJsonFont() const
+{
+    QFont fontText = ui->memo->font();
+    QFontInfo info(fontText);
+
+    QJsonObject dataFont
+        {
+        {"Family", info.family()},
+        {"Style", mStyleName},
+        {"Size", info.pointSize()}
+    };
+    return dataFont;
 }
