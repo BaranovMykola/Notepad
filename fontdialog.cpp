@@ -47,34 +47,32 @@ QFont FontDialog::getFont()
 void FontDialog::updateSelectedFonts(QFont currentFont, QString style)
 {
     QFontInfo info(currentFont);
-    QListWidget* lst[] = {ui->fontList, ui->styleList};
-    QString itemLst[] = {info.family(), style};
-    for(int item = 0;item < 2;++item)
+    int i;
+    for(i = ui->fontList->count()-1;i>=0;--i)
     {
-        int i;
-        for(i = lst[item]->count()-1;i>=0;--i)
+        ui->fontList->setCurrentRow(i);
+        if(getSelectedLabel(ui->fontList)->text() == info.family())
         {
-            lst[item]->setCurrentRow(i);
-            if(getSelectedLabel(lst[item])->text() == itemLst[item])
-            {
-                if(item == 0)
-                {
-                    slotFamily();
-                }
-                break;
-            }
+            populateStyles(getSelectedLabel(ui->fontList)->text(), style, info.pointSize());
+            break;
         }
     }
 }
 
 void FontDialog::slotFamily()
 {
-    populateStyles(getSelectedLabel(ui->fontList)->text()); //call only after clicked -> always selected
+    QString oldStyle;
+    QLabel* oldLabel = getSelectedLabel(ui->styleList);
+    if(oldLabel != nullptr)
+    {
+        oldStyle = oldLabel->text();
+    }
+    populateStyles(getSelectedLabel(ui->fontList)->text(), oldStyle, getSelectedSize()); //call only after clicked -> always selected
 }
 
 void FontDialog::slotStyle()
 {
-    populateStyles(getSelectedLabel(ui->styleList)->text());
+//    populateStyles(getSelectedLabel(ui->styleList)->text());
 }
 
 void FontDialog::slotSize()
@@ -104,25 +102,18 @@ void FontDialog::populateFonts()
     loading.close();
 }
 
-void FontDialog::populateStyles(QString family)
+void FontDialog::populateStyles(QString family, QString oldStyle, int oldSize)
 {
-    QLabel* oldStyle = getSelectedLabel(ui->styleList);
-    QString findString;
     bool restored = false;
-    if(oldStyle != nullptr)
-    {
-        findString = oldStyle->text();
-    }
     QStringList lst = base.styles(family);
     ui->styleList->clear();
-    int index = 0;
     for(auto i : lst)
     {
         QLabel* newItem = new QLabel(i);
         newItem->setFont(base.font(family, i, DefaultFontSize));
         QListWidgetItem* item = new QListWidgetItem(ui->styleList);
         ui->styleList->setItemWidget(item, newItem);
-        if(newItem->text() == findString && oldStyle != nullptr)
+        if(newItem->text() == oldStyle && oldStyle != nullptr)
         {
             restored = true;
             ui->styleList->setCurrentItem( ui->styleList->item(ui->styleList->count()-1));
@@ -133,12 +124,12 @@ void FontDialog::populateStyles(QString family)
     {
         ui->styleList->setCurrentRow(0);
     }
-    populateSize(family, getSelectedLabel(ui->styleList)->text());
+    populateSize(family, getSelectedLabel(ui->styleList)->text(), oldSize);
 }
 
-void FontDialog::populateSize(QString family, QString style)
+void FontDialog::populateSize(QString family, QString style, int oldSize)
 {
-    int oldSize = getSelectedSize();
+//    int oldSize = getSelectedSize();
     auto lst = base.pointSizes(family, style);
     QStringList pointTextList;
     int index = 0;

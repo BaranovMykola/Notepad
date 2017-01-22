@@ -33,8 +33,8 @@ private:
     friend class MainWindow;
 
     void populateFonts();
-    void populateStyles(QString family);
-    void populateSize(QString family, QString style);
+    void populateStyles(QString family, QString oldStyle, int oldSize);
+    void populateSize(QString family, QString style, int oldSize);
     QLabel* getSelectedLabel(QListWidget *list);
     int getSelectedSize();
 
