@@ -12,5 +12,7 @@ const QString ReplaceMessage = "All entrys has been replaced. Total: %1 entrys";
 const QString UndefinedDirectionMessage = "Undefined direction!";
 const int IntMaxLenght = 10;
 const int DefaultFontSize = 9;
+const QString ConfigPath = "config"; // dir in one deep with exe-file.
+const QString ConfigNameFile = "config.json";
 
 #endif // CONSTANTS_H

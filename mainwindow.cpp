@@ -69,13 +69,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionRedo->setShortcut(QKeySequence::Redo);
     ui->actionTime_Date->setShortcut(QKeySequence("Ctrl+D"));
 
-    ui->memo->setFont(readConfig("config", "config.json"));
+    ui->memo->setFont(readConfig(ConfigPath, ConfigNameFile));
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    saveFontTo(ConfigPath, ConfigNameFile);
     delete stateSave;
+    delete ui;
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
@@ -204,8 +205,6 @@ void MainWindow::slotFont()
         ui->memo->setFont(mFontMenu.getFont());
         mStyleName = mFontMenu.getSelectedLabel(mFontMenu.ui->styleList)->text();
     }
-    saveFontTo("config", "config.json");
-    ui->memo->setFont(readConfig("config", "config.json"));
 }
 
 void MainWindow::saveFontTo(const QString &path, const QString& file)
