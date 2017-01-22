@@ -13,6 +13,19 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see http://www.gnu.org/licenses/
 
-//// \brief Pattenr state. Empty source code of virtual abstract class.
+//// \brief basic struct of about dialog window.
 
-#include "abstractsavefilestate.h"
+#include "aboutdialog.h"
+#include "ui_aboutdialog.h"
+
+AboutDialog::AboutDialog(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::AboutDialog)
+{
+    ui->setupUi(this);
+}
+
+AboutDialog::~AboutDialog()
+{
+    delete ui;
+}

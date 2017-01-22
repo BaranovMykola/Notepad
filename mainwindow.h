@@ -12,6 +12,7 @@
 #include "replacedialog.h"
 #include "gotodialog.h"
 #include "fontdialog.h"
+#include "aboutdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -43,6 +44,7 @@ public slots:
     void slotFont();
     void slotWordWrap();
     void slotStatusBar();
+    void slotAbout();
 private:
     void saveFontTo(const QString& path, const QString &file);
     void open();
@@ -68,6 +70,7 @@ private:
     ReplaceDialog replaceMenu;
     GoToDialog mGoToMenu;
     FontDialog mFontMenu;
+    AboutDialog mAboutMenu;
     bool mFontLoaded;
     QString mStyleName;
 

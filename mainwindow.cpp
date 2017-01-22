@@ -1,3 +1,20 @@
+//Copyright (C) 2017  Baranov Mykola
+
+//This program is free software: you can redistribute it and/or modify
+//it under the terms of the GNU General Public License as published by
+//the Free Software Foundation, either version 3 of the License, or
+//(at your option) any later version.
+
+//This program is distributed in the hope that it will be useful,
+//but WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//GNU General Public License for more details.
+
+//You should have received a copy of the GNU General Public License
+//along with this program.  If not, see http://www.gnu.org/licenses/
+
+//// \brief MainWindow. Responds for all basic features, signals and slots.
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -32,7 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
     replaceMenu(0),
     mGoToMenu(0),
     mFontMenu(0),
-    mFontLoaded(false)
+    mFontLoaded(false),
+    mAboutMenu(0)
 {
     stateSave = new SavedFileState;
     ui->setupUi(this);
@@ -54,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionFont, SIGNAL(triggered(bool)), this, SLOT(slotFont()), Qt::UniqueConnection);
     connect(ui->actionWord_Wrap, SIGNAL(triggered(bool)), this, SLOT(slotWordWrap()), Qt::UniqueConnection);
     connect(ui->actionStatus_Bar, SIGNAL(triggered(bool)), this, SLOT(slotStatusBar()), Qt::UniqueConnection);
+    connect(ui->actionAbout_Notepad, SIGNAL(triggered(bool)), this, SLOT(slotAbout()), Qt::UniqueConnection);
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
@@ -236,7 +255,12 @@ void MainWindow::slotWordWrap()
 
 void MainWindow::slotStatusBar()
 {
-        ui->statusBar->setVisible(ui->actionStatus_Bar->isChecked());
+    ui->statusBar->setVisible(ui->actionStatus_Bar->isChecked());
+}
+
+void MainWindow::slotAbout()
+{
+    mAboutMenu.exec();
 }
 
 void MainWindow::saveFontTo(const QString &path, const QString& file)

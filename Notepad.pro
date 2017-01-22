@@ -14,7 +14,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    undefinedfilestate.cpp \
     savedfilestate.cpp \
     unsavedfilestate.cpp \
     abstractsavefilestate.cpp \
@@ -24,10 +23,10 @@ SOURCES += main.cpp\
     replacedialog.cpp \
     gotodialog.cpp \
     fontdialog.cpp \
-    loadingdialog.cpp
+    loadingdialog.cpp \
+    aboutdialog.cpp
 
 HEADERS  += mainwindow.h \
-    undefinedfilestate.h \
     savedfilestate.h \
     unsavedfilestate.h \
     abstractsavefilestate.h \
@@ -38,14 +37,15 @@ HEADERS  += mainwindow.h \
     replacedialog.h \
     gotodialog.h \
     fontdialog.h \
-    loadingdialog.h
+    loadingdialog.h \
+    aboutdialog.h
 
 FORMS    += mainwindow.ui \
     savedialog.ui \
     finddialog.ui \
-    replacedialog.ui \
     gotodialog.ui \
     fontdialog.ui \
-    loadingdialog.ui
+    loadingdialog.ui \
+    aboutdialog.ui
 
 CONFIG += c++14

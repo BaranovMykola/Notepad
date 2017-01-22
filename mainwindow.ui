@@ -102,8 +102,6 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionView_Help"/>
-    <addaction name="separator"/>
     <addaction name="actionAbout_Notepad"/>
    </widget>
    <addaction name="menuFile"/>
