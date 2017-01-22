@@ -21,6 +21,7 @@ public:
     explicit FontDialog(QWidget *parent = 0);
     ~FontDialog();
     QFont getFont();
+    void updateSelectedFonts(QFont currentFont, QString style);
 public slots:
     void slotFamily();
     void slotStyle();

@@ -10,6 +10,11 @@
 #include <QDate>
 #include <QTime>
 #include <QtConcurrent/QtConcurrent>
+#include <QJsonArray>
+#include <QJsonValue>
+#include <QJsonDocument>
+
+#include <map>
 
 #include "abstractsavefilestate.h"
 #include "unsavedfilestate.h"
@@ -18,6 +23,7 @@
 
 #include "ui_finddialog.h"
 #include "ui_gotodialog.h"
+#include "ui_fontdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -62,6 +68,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionGo_to->setShortcut(QKeySequence::Forward);
     ui->actionRedo->setShortcut(QKeySequence::Redo);
     ui->actionTime_Date->setShortcut(QKeySequence("Ctrl+D"));
+
+    ui->memo->setFont(readConfig("config", "config.json"));
 }
 
 MainWindow::~MainWindow()
@@ -188,19 +196,53 @@ void MainWindow::slotFont()
     if(!mFontLoaded)
     {
         mFontMenu.populateFonts();
+        mFontMenu.updateSelectedFonts(ui->memo->font(), mStyleName);
         mFontLoaded = true;
     }
     if(QDialog::Accepted == mFontMenu.exec())
     {
         ui->memo->setFont(mFontMenu.getFont());
+        mStyleName = mFontMenu.getSelectedLabel(mFontMenu.ui->styleList)->text();
     }
-    saveFontTo("config.json");
+    saveFontTo("config", "config.json");
+    ui->memo->setFont(readConfig("config", "config.json"));
 }
 
-void MainWindow::saveFontTo(const QString &path)
+void MainWindow::saveFontTo(const QString &path, const QString& file)
 {
-    QDir dir;
-    qDebug() << dir.path();
+    QDir dir = qApp->applicationDirPath();;
+    QString localPath = dir.absolutePath();
+    qDebug() << localPath;
+    localPath = localPath.append("/%1").arg(path);
+    QDir localDir(localPath);
+    qDebug() << localDir.absolutePath();
+    if(!localDir.exists())
+    {
+       localDir.mkdir(localDir.path());
+    }
+    QFile config(localDir.path().append("/%1").arg(file));
+    config.open(QIODevice::WriteOnly);
+    config.resize(0);
+    QFont fontText = ui->memo->font();
+    QFontInfo info(fontText);
+
+    QJsonObject dataFont
+        {
+        {"Family", info.family()},
+        {"Style", mStyleName},
+        {"Size", info.pointSize()}
+    };
+    qDebug() << "pointFont size:" << info.pointSize();
+
+    QJsonDocument doc(dataFont);
+
+    auto byteData = doc.toJson();
+
+    QTextStream writeStream(&config);
+
+    writeStream << byteData;
+
+    config.close();
 }
 
 void MainWindow::open()
@@ -239,4 +281,54 @@ void MainWindow::updateTitle(QString newTitle)
 QString MainWindow::getPlainText()
 {
     return ui->memo->toPlainText();
+}
+
+QFont MainWindow::readConfig(const QString &path, const QString &file)
+{
+    QDir dir = qApp->applicationDirPath();
+    QFile config(dir.absolutePath().append("/%1/%2").arg(path).arg(file));
+    qDebug() << config.fileName();
+
+    QJsonDocument doc;
+
+    config.open(QIODevice::ReadOnly);
+    QByteArray byteData = config.readAll();
+
+    QJsonParseError errorParser;
+    auto readedDoc = doc.fromJson(byteData, &errorParser);
+    auto obj = readedDoc.object();
+    qDebug() << "coutn: " << obj.count();
+    if(errorParser.error != QJsonParseError::NoError)
+    {
+        config.close();
+        config.open(QIODevice::WriteOnly);
+        config.resize(0);
+        config.close();
+        QFont defFont;
+        return defFont.defaultFamily();
+    }
+    else
+    {
+        int size;
+        std::map<QString, QString> fontProperties;
+        int indexKey = 0;
+        for(auto i : obj)
+        {
+            QStringList keys = obj.keys();
+            if(i.isString())
+            {
+                fontProperties[keys[indexKey]] = i.toString();
+                qDebug() << keys[indexKey] <<  i.toString() << indexKey;
+            }
+            else if(i.isDouble())
+            {
+                size = static_cast<int>(i.toDouble());
+                qDebug() << size;
+            }
+            ++indexKey;
+        }
+        QFontDatabase base;
+        mStyleName = fontProperties["Style"];
+        return base.font(fontProperties["Family"], fontProperties["Style"], size);
+    }
 }

@@ -42,12 +42,13 @@ public slots:
     void slotInserData();
     void slotFont();
 private:
-    void saveFontTo(const QString& path);
+    void saveFontTo(const QString& path, const QString &file);
     void open();
     void save();
     void erase();
     void updateTitle(QString newTitle);
     QString getPlainText();
+    QFont readConfig(const QString& path, const QString& file);
 
     friend class SavedFileState;
     friend class UnsavedFileState;
@@ -63,6 +64,7 @@ private:
     GoToDialog mGoToMenu;
     FontDialog mFontMenu;
     bool mFontLoaded;
+    QString mStyleName;
 
 };
 

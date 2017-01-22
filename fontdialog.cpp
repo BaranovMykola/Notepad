@@ -44,6 +44,29 @@ QFont FontDialog::getFont()
     return base.font(getSelectedLabel(ui->fontList)->text(), getSelectedLabel(ui->styleList)->text(), getSelectedSize());
 }
 
+void FontDialog::updateSelectedFonts(QFont currentFont, QString style)
+{
+    QFontInfo info(currentFont);
+    QListWidget* lst[] = {ui->fontList, ui->styleList};
+    QString itemLst[] = {info.family(), style};
+    for(int item = 0;item < 2;++item)
+    {
+        int i;
+        for(i = lst[item]->count()-1;i>=0;--i)
+        {
+            lst[item]->setCurrentRow(i);
+            if(getSelectedLabel(lst[item])->text() == itemLst[item])
+            {
+                if(item == 0)
+                {
+                    slotFamily();
+                }
+                break;
+            }
+        }
+    }
+}
+
 void FontDialog::slotFamily()
 {
     populateStyles(getSelectedLabel(ui->fontList)->text()); //call only after clicked -> always selected
