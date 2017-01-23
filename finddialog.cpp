@@ -116,7 +116,7 @@ bool FindDialog::findNext(QString subject, Direction type, bool matchCase, bool 
         {
             errorMessage("", UndefinedDirectionMessage);
         }
-        if( ( result == data.end() && ui->down->isChecked() ) || ( result == data.begin() && ui->up->isChecked() ) )
+        if( ( result == data.end() && type == Direction::Down ) || ( result == data.begin() && type == Direction::Up ) )
         {
             if(errorReport)
             {
