@@ -82,6 +82,11 @@ void ReplaceDialog::slotEditRepalceWord()
     ui->buttonReplaceAll->setEnabled(enable);
 }
 
+void ReplaceDialog::back()
+{
+    mFindMenu->memo->setPlainText(changes.get());
+}
+
 MementoQPlainTextEdit *ReplaceDialog::saveState() const
 {
     return new MementoQPlainTextEdit(mFindMenu->memo->toPlainText());

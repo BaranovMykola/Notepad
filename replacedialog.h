@@ -25,12 +25,10 @@ public slots:
     void slotReplace();
     void slotReplaceAll();
     void slotEditRepalceWord();
-    MementoQPlainTextEdit* saveState()const;
 private:
     bool replace(bool errorReport);
     Ui::ReplaceDialog *ui;
     FindDialog* mFindMenu;
-    CaretakerQPlaintTextEdit changes;
 };
 
 #endif // REPLACEDIALOG_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>456</width>
-    <height>187</height>
+    <width>458</width>
+    <height>175</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -116,7 +116,7 @@
          </font>
         </property>
         <property name="text">
-         <string>dsds</string>
+         <string>Find what:</string>
         </property>
        </widget>
       </item>
