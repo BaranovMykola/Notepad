@@ -34,7 +34,12 @@ void SavedFileState::updateState(MainWindow &obj)
 
 void SavedFileState::save(MainWindow& obj)
 {
-    obj.ui->statusBar->showMessage(QString("File has been saved already (%1)").arg(obj.mFile.fileName()));
+    QString fileName = obj.mFile.fileName();
+    if(fileName.isEmpty())
+    {
+        fileName = "Untitled";
+    }
+    obj.ui->statusBar->showMessage(QString("File has been saved already (%1)").arg(fileName));
 }
 
 void SavedFileState::close(MainWindow &obj)

@@ -284,6 +284,7 @@ void MainWindow::openFile(QString fileName)
     mFile.setFileName(fileName);
     QString data = openFileFunction(mFile);
     ui->memo->setPlainText(data);
+    stateSave->updateState(*this); // setup to saved
 }
 
 void MainWindow::open()

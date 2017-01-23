@@ -38,7 +38,7 @@ SaveDialog::SaveDialog(QWidget *parent, QFile &file, QString data) :
     this->setWindowFlags(this->windowFlags() | Qt::MSWindowsFixedSizeDialogHint);
     QPalette sample_palette;
     sample_palette.setColor(QPalette::Window, Qt::white);
-    sample_palette.setColor(QPalette::WindowText, QColor(0,80,170));
+    sample_palette.setColor(QPalette::WindowText, QColor(0,60,150));
     auto filePath = mFile.fileName();
     if(filePath.isEmpty())
     {
