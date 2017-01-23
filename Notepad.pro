@@ -49,3 +49,5 @@ FORMS    += mainwindow.ui \
     aboutdialog.ui
 
 CONFIG += c++14
+
+RC_ICONS += Notepad.ico

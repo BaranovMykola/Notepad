@@ -54,6 +54,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     stateSave = new SavedFileState;
     ui->setupUi(this);
+    QString path = ConfigPath;
+    path.append("/").append(IconName);
+    QIcon icon(path);
+    qDebug() << path;
+    setWindowIcon(icon);
     findMenu.setMemo(ui->memo);
     replaceMenu.setFindDialog(&findMenu);
     connect(ui->actionOpen, SIGNAL(triggered(bool)), this, SLOT(slotOpenFile()), Qt::UniqueConnection);
@@ -284,7 +289,7 @@ void MainWindow::openFile(QString fileName)
     mFile.setFileName(fileName);
     QString data = openFileFunction(mFile);
     ui->memo->setPlainText(data);
-    stateSave->updateState(*this); // setup to saved
+    stateSave->updateState(*this);
 }
 
 void MainWindow::open()
