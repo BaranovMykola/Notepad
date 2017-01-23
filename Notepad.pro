@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     gotodialog.cpp \
     fontdialog.cpp \
     loadingdialog.cpp \
-    aboutdialog.cpp
+    aboutdialog.cpp \
+    mementoqplaintextedit.cpp \
+    caretakerqplainttextedit.cpp
 
 HEADERS  += mainwindow.h \
     savedfilestate.h \
@@ -38,7 +40,9 @@ HEADERS  += mainwindow.h \
     gotodialog.h \
     fontdialog.h \
     loadingdialog.h \
-    aboutdialog.h
+    aboutdialog.h \
+    mementoqplaintextedit.h \
+    caretakerqplainttextedit.h
 
 FORMS    += mainwindow.ui \
     savedialog.ui \

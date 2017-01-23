@@ -2,7 +2,10 @@
 #define REPLACEDIALOG_H
 
 #include <QDialog>
+
 #include "finddialog.h"
+#include "mementoqplaintextedit.h"
+#include "caretakerqplainttextedit.h"
 
 namespace Ui {
 class ReplaceDialog;
@@ -22,10 +25,12 @@ public slots:
     void slotReplace();
     void slotReplaceAll();
     void slotEditRepalceWord();
+    MementoQPlainTextEdit* saveState()const;
 private:
     bool replace(bool errorReport);
     Ui::ReplaceDialog *ui;
     FindDialog* mFindMenu;
+    CaretakerQPlaintTextEdit changes;
 };
 
 #endif // REPLACEDIALOG_H
