@@ -7,6 +7,7 @@
 #include <memory>
 #include <tuple>
 #include <QJsonValue>
+#include <QtPrintSupport/QPrinter>
 
 #include "savedialog.h"
 #include "constants.h"
@@ -55,6 +56,8 @@ public slots:
     void slotWordWrap();
     void slotStatusBar();
     void slotAbout();
+    void slotPageOption();
+    void slotPrint();
 private:
     void open();
     void save();
@@ -97,6 +100,7 @@ private:
     AboutDialog mAboutMenu;
     bool mFontLoaded;
     QString mStyleName;
+    QPrinter printer;
 
 };
 

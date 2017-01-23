@@ -51,4 +51,4 @@ FORMS    += mainwindow.ui \
 
 CONFIG += c++14
 
-RC_ICONS += Notepad.ico
+QT += printsupport

@@ -30,6 +30,8 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QJsonDocument>
+#include <QtPrintSupport/QPrintDialog>
+#include <QPainter>
 
 #include <map>
 
@@ -73,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionWord_Wrap, SIGNAL(triggered(bool)), this, SLOT(slotWordWrap()), Qt::UniqueConnection);
     connect(ui->actionStatus_Bar, SIGNAL(triggered(bool)), this, SLOT(slotStatusBar()), Qt::UniqueConnection);
     connect(ui->actionAbout_Notepad, SIGNAL(triggered(bool)), this, SLOT(slotAbout()), Qt::UniqueConnection);
+    connect(ui->actionPrint, SIGNAL(triggered(bool)), this, SLOT(slotPrint()), Qt::UniqueConnection);
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
@@ -261,6 +264,24 @@ void MainWindow::slotStatusBar()
 void MainWindow::slotAbout()
 {
     mAboutMenu.exec();
+}
+
+
+
+void MainWindow::slotPageOption()
+{
+}
+
+void MainWindow::slotPrint()
+{
+    QPrintDialog printDialog(&printer, this);
+    if(QDialog::Accepted == printDialog.exec())
+    {
+        qDebug() << "printing...";
+        QTextDocument doc(getPlainText(), this);
+        doc.print(&printer);
+    }
+
 }
 
 void MainWindow::saveConfigTo(const QString &path, const QString& file)
