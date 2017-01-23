@@ -260,8 +260,7 @@ void MainWindow::slotStatusBar()
 
 void MainWindow::slotAbout()
 {
-//    mAboutMenu.exec();
-    readConfigFrom(ConfigPath, ConfigNameFile);
+    mAboutMenu.exec();
 }
 
 void MainWindow::saveConfigTo(const QString &path, const QString& file)
@@ -456,12 +455,10 @@ void MainWindow::readConfigFrom(const QString &path, const QString &file)
                 if(keys[indexKey] == "Word Wrap")
                 {
                     ui->actionWord_Wrap->setChecked(readWordWrap(i.toObject()));
-                    qDebug() << readWordWrap(i.toObject());
                 }
                 else if(keys[indexKey] == "Status Bar")
                 {
                     ui->actionStatus_Bar->setChecked(readStatusBar(i.toObject()));
-                    qDebug() << readStatusBar(i.toObject());
                 }
                 else if(keys[indexKey] == "Font")
                 {
