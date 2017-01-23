@@ -7,7 +7,7 @@
 #include <QLabel>
 #include <QFont>
 
-#include "loadingdialog.h"
+#include "loadingfontsdialog.h"
 
 namespace Ui {
 class FontDialog;
@@ -37,7 +37,7 @@ private:
     int getSelectedSize();
 
     Ui::FontDialog *ui;
-    LoadingDialog loading;
+    LoadingFontsDialog loading;
     QFontDatabase base;
 };
 

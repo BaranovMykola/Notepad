@@ -23,8 +23,8 @@ SOURCES += main.cpp\
     replacedialog.cpp \
     gotodialog.cpp \
     fontdialog.cpp \
-    loadingdialog.cpp \
-    aboutdialog.cpp
+    aboutdialog.cpp \
+    loadingfontsdialog.cpp
 
 HEADERS  += mainwindow.h \
     savedfilestate.h \
@@ -37,17 +37,17 @@ HEADERS  += mainwindow.h \
     replacedialog.h \
     gotodialog.h \
     fontdialog.h \
-    loadingdialog.h \
-    aboutdialog.h
+    aboutdialog.h \
+    loadingfontsdialog.h
 
 FORMS    += mainwindow.ui \
     savedialog.ui \
     finddialog.ui \
     gotodialog.ui \
     fontdialog.ui \
-    loadingdialog.ui \
     aboutdialog.ui \
-    replacedialog.ui
+    replacedialog.ui \
+    loadingfontsdialog.ui
 
 CONFIG += c++14
 

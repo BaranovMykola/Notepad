@@ -32,8 +32,7 @@
 #include <iterator>
 
 #include "constants.h"
-
-#include "ui_loadngdialog.h"
+#include "ui_loadingfontsdialog.h"
 
 FontDialog::FontDialog(QWidget *parent) :
     QDialog(parent),
