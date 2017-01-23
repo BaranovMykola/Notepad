@@ -5,6 +5,8 @@
 #include <QAbstractScrollArea>
 #include <QFile>
 #include <memory>
+#include <tuple>
+#include <QJsonValue>
 
 #include "savedialog.h"
 #include "constants.h"
@@ -23,6 +25,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    enum DataType{String, Double, Bool};
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
@@ -46,16 +49,31 @@ public slots:
     void slotStatusBar();
     void slotAbout();
 private:
-    void saveFontTo(const QString& path, const QString &file);
     void open();
     void save();
     void erase();
     void updateTitle(QString newTitle);
     QString getPlainText();
-    QFont readConfig(const QString& path, const QString& file);
+
+    void readConfigFrom(const QString& path, const QString &file);
+
+    std::tuple<std::map<QString, QString>, std::map<QString, double>, std::map<QString, bool> > readQJsonObject(QJsonObject obj)const;
+
+    QFont readFont(QJsonObject fontObject);
+    bool readWordWrap(QJsonObject obj)const;
+    bool readStatusBar(QJsonObject obj)const;
 
     QJsonObject makeJsonFont()const;
-    QJsonObject makeJsonWordWrap();
+    QJsonObject makeJsonWordWrap()const;
+    QJsonObject makeJsonStatusBar()const;
+
+    QJsonObject makeGenerealJsonObject();
+
+    void saveConfigTo(const QString& path, const QString &file);
+    void writeJsonConfig(QFile& config);
+
+    MainWindow::DataType getTypeData(QJsonValueRef value);
+
 
     friend class SavedFileState;
     friend class UnsavedFileState;

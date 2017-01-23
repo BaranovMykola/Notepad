@@ -90,12 +90,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionRedo->setShortcut(QKeySequence::Redo);
     ui->actionTime_Date->setShortcut(QKeySequence("Ctrl+D"));
 
-    ui->memo->setFont(readConfig(ConfigPath, ConfigNameFile));
+//    ui->memo->setFont(readConfig(ConfigPath, ConfigNameFile));
 }
 
 MainWindow::~MainWindow()
 {
-    saveFontTo(ConfigPath, ConfigNameFile);
+//    saveConfigTo(ConfigPath, ConfigNameFile);
     delete stateSave;
     delete ui;
 }
@@ -260,10 +260,11 @@ void MainWindow::slotStatusBar()
 
 void MainWindow::slotAbout()
 {
-    mAboutMenu.exec();
+//    mAboutMenu.exec();
+    readConfigFrom(ConfigPath, ConfigNameFile);
 }
 
-void MainWindow::saveFontTo(const QString &path, const QString& file)
+void MainWindow::saveConfigTo(const QString &path, const QString& file)
 {
     QDir dir = qApp->applicationDirPath();;
     QString localPath = dir.absolutePath();
@@ -276,20 +277,7 @@ void MainWindow::saveFontTo(const QString &path, const QString& file)
        localDir.mkdir(localDir.path());
     }
     QFile config(localDir.path().append("/%1").arg(file));
-    config.open(QIODevice::WriteOnly);
-    config.resize(0);
-
-    QJsonObject dataFont = makeJsonFont();
-
-    QJsonDocument doc(dataFont);
-
-    auto byteData = doc.toJson();
-
-    QTextStream writeStream(&config);
-
-    writeStream << byteData;
-
-    config.close();
+    writeJsonConfig(config);
 }
 
 void MainWindow::open()
@@ -331,7 +319,106 @@ QString MainWindow::getPlainText()
     return ui->memo->toPlainText();
 }
 
-QFont MainWindow::readConfig(const QString &path, const QString &file)
+QFont MainWindow::readFont(QJsonObject fontObject)
+{
+    auto data = readQJsonObject(fontObject);
+    mStyleName = std::get<DataType::String>(data)["Style"];
+    QFontDatabase base;
+    return base.font(std::get<DataType::String>(data)["Family"],
+            mStyleName,
+            static_cast<int>(std::get<DataType::Double>(data)["Size"]));
+}
+
+bool MainWindow::readWordWrap(QJsonObject obj) const
+{
+    auto data = readQJsonObject(obj);
+    return std::get<DataType::Bool>(data)["checked"];
+}
+
+bool MainWindow::readStatusBar(QJsonObject obj) const
+{
+    auto data = readQJsonObject(obj);
+    return std::get<DataType::Bool>(data)["checked"];
+}
+
+std::tuple<std::map<QString, QString>, std::map<QString, double>, std::map<QString, bool> > MainWindow::readQJsonObject(QJsonObject obj) const
+{
+    std::map<QString, QString> valueStr;
+    std::map<QString, double> valueDouble;
+    std::map<QString, bool> valueBool;
+    auto jsonData = make_tuple(valueStr, valueDouble, valueBool);
+
+    QStringList keys = obj.keys();
+    int indexKey = 0;
+    for(auto i : obj)
+    {
+        if(i.isString())
+        {
+            std::get<DataType::String>(jsonData)[keys[indexKey]] = i.toString();
+        }
+        else if(i.isDouble())
+        {
+            std::get<DataType::Double>(jsonData)[keys[indexKey]] = i.toDouble();
+        }
+        else if(i.isBool())
+        {
+            std::get<DataType::Bool>(jsonData)[keys[indexKey]] = i.toBool();
+        }
+        ++indexKey;
+    }
+    return std::move(jsonData);
+}
+
+QJsonObject MainWindow::makeJsonFont() const
+{
+    QFont fontText = ui->memo->font();
+    QFontInfo info(fontText);
+
+    QJsonObject dataFont
+        {
+        {"Family", info.family()},
+        {"Style", mStyleName},
+        {"Size", info.pointSize()}
+    };
+    return dataFont;
+}
+
+QJsonObject MainWindow::makeJsonWordWrap() const
+{
+    return QJsonObject { {"checked", ui->actionWord_Wrap->isChecked()} };
+}
+
+QJsonObject MainWindow::makeJsonStatusBar() const
+{
+    return QJsonObject { {"checked", ui->actionStatus_Bar->isChecked()} };
+}
+
+QJsonObject MainWindow::makeGenerealJsonObject()
+{
+    return QJsonObject{
+        {"Font", QJsonValue(makeJsonFont())},
+        {"Word Wrap", QJsonValue(makeJsonWordWrap())},
+        {"Status Bar", QJsonValue(makeJsonStatusBar())}
+    };
+}
+
+void MainWindow::writeJsonConfig(QFile &config)
+{
+    config.open(QIODevice::WriteOnly);
+    config.resize(0);
+
+    QJsonDocument doc(makeGenerealJsonObject());
+
+    auto byteData = doc.toJson();
+
+    QTextStream writeStream(&config);
+
+    writeStream << byteData;
+
+    config.close();
+}
+
+void MainWindow::readConfigFrom(const QString &path, const QString &file)
 {
     QDir dir = qApp->applicationDirPath();
     QFile config(dir.absolutePath().append("/%1/%2").arg(path).arg(file));
@@ -353,49 +440,50 @@ QFont MainWindow::readConfig(const QString &path, const QString &file)
         config.resize(0);
         config.close();
         QFont defFont;
-        return defFont.defaultFamily();
+        qDebug() << errorParser.errorString();
     }
     else
     {
         int size;
         std::map<QString, QString> fontProperties;
         int indexKey = 0;
+        QStringList keys = obj.keys();
         for(auto i : obj)
         {
-            QStringList keys = obj.keys();
-            if(i.isString())
+            qDebug() << "key: " << keys[indexKey];
+            qDebug() << "isobject" << i.isObject();
+            if(i.isObject())
             {
-                fontProperties[keys[indexKey]] = i.toString();
-                qDebug() << keys[indexKey] <<  i.toString() << indexKey;
-            }
-            else if(i.isDouble())
-            {
-                size = static_cast<int>(i.toDouble());
-                qDebug() << size;
+                if(keys[indexKey] == "Word Wrap")
+                {
+                    ui->actionWord_Wrap->setChecked(readWordWrap(i.toObject()));
+                }
+                else if(keys[indexKey] == "Status Bar")
+                {
+                    ui->actionWord_Wrap->setChecked(readStatusBar(i.toObject()));
+                }
+                else if(keys[indexKey] == "Font")
+                {
+                    ui->memo->setFont(readFont(i.toObject()));
+                }
             }
             ++indexKey;
         }
-        QFontDatabase base;
-        mStyleName = fontProperties["Style"];
-        return base.font(fontProperties["Family"], fontProperties["Style"], size);
     }
 }
 
-QJsonObject MainWindow::makeJsonFont() const
+MainWindow::DataType MainWindow::getTypeData(QJsonValueRef value)
 {
-    QFont fontText = ui->memo->font();
-    QFontInfo info(fontText);
-
-    QJsonObject dataFont
-        {
-        {"Family", info.family()},
-        {"Style", mStyleName},
-        {"Size", info.pointSize()}
-    };
-    return dataFont;
-}
-
-QJsonObject MainWindow::makeJsonWordWrap()
-{
-    return QJsonObject { {"Word Wrap", ui->actionWord_Wrap->isChecked()} };
+    if(value.isString())
+    {
+        return DataType::String;
+    }
+    if(value.isDouble())
+    {
+        return DataType::Double;
+    }
+    if(value.isBool())
+    {
+        return DataType::Bool;
+    }
 }
