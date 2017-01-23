@@ -29,6 +29,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    /*General method of reading saved data*/
+    void readConfigFrom(const QString& path, const QString &file);
+    /*Save all properties to *.json file*/
+    void saveConfigTo(const QString& path, const QString &file);
     void closeEvent(QCloseEvent *event);
 public slots:
     void slotOpenFile();
@@ -55,25 +59,24 @@ private:
     void updateTitle(QString newTitle);
     QString getPlainText();
 
-    void readConfigFrom(const QString& path, const QString &file);
 
+    /*General algorithm of readint QJsonObject data*/
     std::tuple<std::map<QString, QString>, std::map<QString, double>, std::map<QString, bool> > readQJsonObject(QJsonObject obj)const;
 
+    /*Read QJsonObject pf every prperties and returns this properties*/
     QFont readFont(QJsonObject fontObject);
     bool readWordWrap(QJsonObject obj)const;
     bool readStatusBar(QJsonObject obj)const;
 
+    /*Make QJsonObject of every properties*/
     QJsonObject makeJsonFont()const;
     QJsonObject makeJsonWordWrap()const;
     QJsonObject makeJsonStatusBar()const;
 
+    /*Make QJsonObject of all properties*/
     QJsonObject makeGenerealJsonObject();
 
-    void saveConfigTo(const QString& path, const QString &file);
     void writeJsonConfig(QFile& config);
-
-    MainWindow::DataType getTypeData(QJsonValueRef value);
-
 
     friend class SavedFileState;
     friend class UnsavedFileState;
