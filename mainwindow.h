@@ -33,6 +33,7 @@ public:
     void readConfigFrom(const QString& path, const QString &file);
     /*Save all properties to *.json file*/
     void saveConfigTo(const QString& path, const QString &file);
+
     void closeEvent(QCloseEvent *event);
 public slots:
     void slotOpenFile();

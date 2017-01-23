@@ -90,12 +90,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionRedo->setShortcut(QKeySequence::Redo);
     ui->actionTime_Date->setShortcut(QKeySequence("Ctrl+D"));
 
-//    ui->memo->setFont(readConfig(ConfigPath, ConfigNameFile));
+    readConfigFrom(ConfigPath, ConfigNameFile);
 }
 
 MainWindow::~MainWindow()
 {
-//    saveConfigTo(ConfigPath, ConfigNameFile);
+    saveConfigTo(ConfigPath, ConfigNameFile);
     delete stateSave;
     delete ui;
 }
@@ -451,16 +451,17 @@ void MainWindow::readConfigFrom(const QString &path, const QString &file)
         for(auto i : obj)
         {
             qDebug() << "key: " << keys[indexKey];
-            qDebug() << "isobject" << i.isObject();
             if(i.isObject())
             {
                 if(keys[indexKey] == "Word Wrap")
                 {
                     ui->actionWord_Wrap->setChecked(readWordWrap(i.toObject()));
+                    qDebug() << readWordWrap(i.toObject());
                 }
                 else if(keys[indexKey] == "Status Bar")
                 {
-                    ui->actionWord_Wrap->setChecked(readStatusBar(i.toObject()));
+                    ui->actionStatus_Bar->setChecked(readStatusBar(i.toObject()));
+                    qDebug() << readStatusBar(i.toObject());
                 }
                 else if(keys[indexKey] == "Font")
                 {
@@ -469,21 +470,5 @@ void MainWindow::readConfigFrom(const QString &path, const QString &file)
             }
             ++indexKey;
         }
-    }
-}
-
-MainWindow::DataType MainWindow::getTypeData(QJsonValueRef value)
-{
-    if(value.isString())
-    {
-        return DataType::String;
-    }
-    if(value.isDouble())
-    {
-        return DataType::Double;
-    }
-    if(value.isBool())
-    {
-        return DataType::Bool;
     }
 }
