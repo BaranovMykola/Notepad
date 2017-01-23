@@ -4,8 +4,6 @@
 #include <QDialog>
 
 #include "finddialog.h"
-#include "mementoqplaintextedit.h"
-#include "caretakerqplainttextedit.h"
 
 namespace Ui {
 class ReplaceDialog;
