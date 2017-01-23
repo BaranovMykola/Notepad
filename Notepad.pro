@@ -50,7 +50,8 @@ FORMS    += mainwindow.ui \
     gotodialog.ui \
     fontdialog.ui \
     loadingdialog.ui \
-    aboutdialog.ui
+    aboutdialog.ui \
+    replacedialog.ui
 
 CONFIG += c++14
 
