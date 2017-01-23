@@ -47,3 +47,12 @@ void saveFileFunction(QFile &file, QString& data)
     QTextStream writingStream(&file);
     writingStream << data;
 }
+
+QString openFileFunction(QFile &file)
+{
+    if(file.open(QIODevice::ReadWrite))
+    {
+        QTextStream stream(&file);
+        return stream.readAll();
+    }
+}

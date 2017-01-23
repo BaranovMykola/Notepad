@@ -279,21 +279,20 @@ void MainWindow::saveConfigTo(const QString &path, const QString& file)
     writeJsonConfig(config);
 }
 
+void MainWindow::openFile(QString fileName)
+{
+    mFile.setFileName(fileName);
+    QString data = openFileFunction(mFile);
+    ui->memo->setPlainText(data);
+}
+
 void MainWindow::open()
 {
     QFileDialog files;
     mPathFile = QFileDialog::getOpenFileName(this, tr("Open File..."), QDir::homePath(), "Text Files (*.txt);; All Files (*.*)");
     if(!mPathFile.isEmpty())
     {
-        mFile.setFileName(mPathFile);
-        if(mFile.open(QIODevice::ReadWrite))
-        {
-            QTextStream stream(&mFile);
-            QString data = stream.readAll();
-            ui->memo->setPlainText(data);
-            updateTitle(mPathFile);
-            ui->statusBar->showMessage(tr("Opened file %1").arg(mFile.fileName()));
-        }
+        openFile(mPathFile);
     }
 }
 
