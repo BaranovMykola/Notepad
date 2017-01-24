@@ -16,6 +16,8 @@
 #include "gotodialog.h"
 #include "fontdialog.h"
 #include "aboutdialog.h"
+#include "pageoptiondialog.h"
+#include <map>
 
 namespace Ui {
 class MainWindow;
@@ -57,7 +59,7 @@ public slots:
     void slotStatusBar();
     void slotAbout();
     void slotPageOption();
-    void slotPrint();
+    void slotPrint(QPrinter *p);
 private:
     void open();
     void save();
@@ -101,6 +103,7 @@ private:
     bool mFontLoaded;
     QString mStyleName;
     QPrinter printer;
+    PageOptionDialog mPageOptionMenu;
 
 };
 
