@@ -278,8 +278,7 @@ void MainWindow::slotPrint()
     if(QDialog::Accepted == printDialog.exec())
     {
         qDebug() << "printing...";
-        QMarginsF m(1,1,1,1);
-        printer.setPageMargins(m);
+        printer.setPaperSize(QPrinter::A6);
         QTextDocument doc(getPlainText(), this);
         doc.setDefaultFont(ui->memo->font());
         doc.print(&printer);
