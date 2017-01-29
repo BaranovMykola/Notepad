@@ -42,9 +42,9 @@ void UnsavedFileState::save(MainWindow& obj)
     auto data = obj.getPlainText();
     if(obj.mFile.fileName().isEmpty())
     {
-        obj.mFile.setFileName(saveAs());
+        obj.slotSaveAs();
     }
-    if(!obj.mFile.fileName().isEmpty())
+    else
     {
         saveFileFunction(obj.mFile, data);
         updateState(obj);
@@ -54,7 +54,7 @@ void UnsavedFileState::save(MainWindow& obj)
 
 void UnsavedFileState::close(MainWindow &obj)
 {
-    SaveDialog askSave(0, obj.mFile, obj.getPlainText());
+    SaveDialog askSave(0, &obj, obj.getPlainText());
     if(QDialog::Accepted == askSave.exec())
     {
         if(dynamic_cast<SavedFileState*>(obj.stateSave) == nullptr)
@@ -67,7 +67,7 @@ void UnsavedFileState::close(MainWindow &obj)
 
 void UnsavedFileState::open(MainWindow &obj)
 {
-    SaveDialog askSave(0, obj.mFile, obj.getPlainText());
+    SaveDialog askSave(0, &obj, obj.getPlainText());
     if(QDialog::Accepted == askSave.exec())
     {
         obj.open();
@@ -76,7 +76,7 @@ void UnsavedFileState::open(MainWindow &obj)
 
 void UnsavedFileState::newDoc(MainWindow &obj)
 {
-    SaveDialog askSave(0, obj.mFile, obj.getPlainText());
+    SaveDialog askSave(0, &obj, obj.getPlainText());
     if(QDialog::Accepted == askSave.exec())
     {
         obj.mFile.setFileName(QString());

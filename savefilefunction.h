@@ -4,7 +4,9 @@
 class QFile;
 class QString;
 
-QString saveAs();
+#include <QDir>
+
+QString saveAs(QString path = QDir::homePath());
 
 void saveFileFunction(QFile& file, QString& data);
 QString openFileFunction(QFile& file);

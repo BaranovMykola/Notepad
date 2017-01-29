@@ -42,7 +42,7 @@ public slots:
     void slotOpenFile();
     void slotNewFile();
     void slotSaveFile();
-    void slotSaveAs();
+    bool slotSaveAs();
     void slotClose();
     void slotEdit();
     void slotDeleteSelected();
@@ -78,6 +78,7 @@ private:
     QJsonObject makeJsonFont()const;
     QJsonObject makeJsonWordWrap()const;
     QJsonObject makeJsonStatusBar()const;
+    QJsonObject makeJsonPath()const;
 
     /*Make QJsonObject of all properties*/
     QJsonObject makeGenerealJsonObject();

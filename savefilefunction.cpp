@@ -23,9 +23,9 @@
 #include <QDir>
 #include <QFileDialog>
 
-QString saveAs()
+QString saveAs(QString path)
 {
-    QFileDialog askFile(0, "Save as...", QDir::homePath(), "Text File (*.txt)");
+    QFileDialog askFile(0, "Save as...", path, "Text File (*.txt)");
     askFile.setAcceptMode(QFileDialog::AcceptSave);
     askFile.setFileMode(QFileDialog::AnyFile);
     if(askFile.exec()){

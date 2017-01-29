@@ -140,12 +140,21 @@ void MainWindow::slotSaveFile()
     stateSave->save(*this);
 }
 
-void MainWindow::slotSaveAs()
+bool MainWindow::slotSaveAs()
 {
-    mFile.setFileName(saveAs());
-    auto data = getPlainText();
-    saveFileFunction(mFile, data);
-    ui->statusBar->showMessage(QString("File saved as %1").arg(mFile.fileName()));
+    QString fileName = saveAs(mFile.fileName());
+    if(!fileName.isEmpty())
+    {
+        mFile.setFileName(fileName);
+        auto data = getPlainText();
+        saveFileFunction(mFile, data);
+        ui->statusBar->showMessage(QString("File saved as %1").arg(mFile.fileName()));
+    }
+    else
+    {
+        ui->statusBar->showMessage(QString("File wasn't saved"));
+    }
+    return !fileName.isEmpty();
 }
 
 void MainWindow::slotClose()
@@ -413,12 +422,18 @@ QJsonObject MainWindow::makeJsonStatusBar() const
     return QJsonObject { {"checked", ui->actionStatus_Bar->isChecked()} };
 }
 
+QJsonObject MainWindow::makeJsonPath() const
+{
+     return QJsonObject { {"dir", mFile.fileName()} };
+}
+
 QJsonObject MainWindow::makeGenerealJsonObject()
 {
     return QJsonObject{
         {"Font", QJsonValue(makeJsonFont())},
         {"Word Wrap", QJsonValue(makeJsonWordWrap())},
-        {"Status Bar", QJsonValue(makeJsonStatusBar())}
+        {"Status Bar", QJsonValue(makeJsonStatusBar())},
+        {"Opened directory", QJsonValue(makeJsonPath())}
     };
 }
 

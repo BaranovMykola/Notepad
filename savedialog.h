@@ -2,6 +2,8 @@
 #define SAVEDIALOG_H
 
 #include <QDialog>
+
+class MainWindow;
 class QFile;
 
 namespace Ui {
@@ -13,7 +15,7 @@ class SaveDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit SaveDialog(QWidget *parent, QFile& file, QString data);
+    explicit SaveDialog(QWidget *parent, MainWindow* _obj, QString data);
     ~SaveDialog();
 public slots:
     void slotSave();
@@ -22,7 +24,7 @@ public slots:
 
 private:
     Ui::SaveDialog *ui;
-    QFile& mFile;
+    MainWindow* obj;
     QString mData;
 };
 

@@ -27,11 +27,12 @@
 
 #include "savefilefunction.h"
 #include "constants.h"
+#include "mainwindow.h"
 
-SaveDialog::SaveDialog(QWidget *parent, QFile &file, QString data) :
+SaveDialog::SaveDialog(QWidget *parent, MainWindow* _obj, QString data) :
     QDialog(parent),
     ui(new Ui::SaveDialog),
-    mFile(file),
+    obj(_obj),
     mData(data)
 {
     ui->setupUi(this);
@@ -39,7 +40,7 @@ SaveDialog::SaveDialog(QWidget *parent, QFile &file, QString data) :
     QPalette sample_palette;
     sample_palette.setColor(QPalette::Window, Qt::white);
     sample_palette.setColor(QPalette::WindowText, QColor(0,60,150));
-    auto filePath = mFile.fileName();
+    auto filePath = obj->mFile.fileName();
     if(filePath.isEmpty())
     {
         filePath = "Untitled";
@@ -66,11 +67,17 @@ SaveDialog::~SaveDialog()
 
 void SaveDialog::slotSave()
 {
-    if(mFile.fileName().isEmpty())
+    if(obj->mFile.fileName().isEmpty())
     {
-        mFile.setFileName(saveAs());
+        if(!obj->slotSaveAs())
+        {
+            return reject();
+        }
     }
-    saveFileFunction(mFile, mData);
+    else
+    {
+        saveFileFunction(obj->mFile, mData);
+    }
     accept();
 }
 
