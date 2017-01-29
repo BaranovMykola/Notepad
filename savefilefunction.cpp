@@ -25,6 +25,10 @@
 
 QString saveAs(QString path)
 {
+    if(path.isEmpty())
+    {
+        path = QDir::homePath();
+    }
     QFileDialog askFile(0, "Save as...", path, "Text File (*.txt)");
     askFile.setAcceptMode(QFileDialog::AcceptSave);
     askFile.setFileMode(QFileDialog::AnyFile);

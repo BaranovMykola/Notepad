@@ -73,6 +73,7 @@ private:
     QFont readFont(QJsonObject fontObject);
     bool readWordWrap(QJsonObject obj)const;
     bool readStatusBar(QJsonObject obj)const;
+    QString readPath(QJsonObject obj)const;
 
     /*Make QJsonObject of every properties*/
     QJsonObject makeJsonFont()const;
@@ -102,6 +103,7 @@ private:
     bool mFontLoaded;
     QString mStyleName;
     QPrinter printer;
+    QString lastDir;
 
 };
 

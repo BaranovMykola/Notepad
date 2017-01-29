@@ -142,7 +142,7 @@ void MainWindow::slotSaveFile()
 
 bool MainWindow::slotSaveAs()
 {
-    QString fileName = saveAs(mFile.fileName());
+    QString fileName = saveAs(lastDir);
     if(!fileName.isEmpty())
     {
         mFile.setFileName(fileName);
@@ -320,10 +320,15 @@ void MainWindow::openFile(QString fileName)
 void MainWindow::open()
 {
     QFileDialog files;
-    mPathFile = QFileDialog::getOpenFileName(this, tr("Open File..."), QDir::homePath(), "Text Files (*.txt);; All Files (*.*)");
+    if(lastDir.isEmpty())
+    {
+        lastDir = QDir::homePath();
+    }
+    mPathFile = QFileDialog::getOpenFileName(this, tr("Open File..."), lastDir, "Text Files (*.txt);; All Files (*.*)");
     if(!mPathFile.isEmpty())
     {
         openFile(mPathFile);
+        lastDir = mPathFile;
     }
 }
 
@@ -368,6 +373,12 @@ bool MainWindow::readStatusBar(QJsonObject obj) const
 {
     auto data = readQJsonObject(obj);
     return std::get<DataType::Bool>(data)["checked"];
+}
+
+QString MainWindow::readPath(QJsonObject obj) const
+{
+    auto data = readQJsonObject(obj);
+    return std::get<DataType::String>(data)["dir"];
 }
 
 std::tuple<std::map<QString, QString>, std::map<QString, double>, std::map<QString, bool> > MainWindow::readQJsonObject(QJsonObject obj) const
@@ -499,6 +510,10 @@ void MainWindow::readConfigFrom(const QString &path, const QString &file)
                 else if(keys[indexKey] == "Font")
                 {
                     ui->memo->setFont(readFont(i.toObject()));
+                }
+                else if(keys[indexKey] == "Opened directory")
+                {
+                    lastDir = readPath(i.toObject());
                 }
             }
             ++indexKey;
