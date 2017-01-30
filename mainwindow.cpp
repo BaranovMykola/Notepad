@@ -34,6 +34,8 @@
 #include <QPainter>
 #include <QPrintPreviewDialog>
 #include <QPageSetupDialog>
+#include <QPrintDialog>
+#include <QProgressDialog>
 
 #include <map>
 
@@ -55,7 +57,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mFontMenu(0),
     mFontLoaded(false),
     mAboutMenu(0),
-    mPageOptionMenu(0)
+    mPageOptionMenu(0),
+    mDupldexMenu(0)
 {
     stateSave = new SavedFileState;
     ui->setupUi(this);
@@ -278,16 +281,20 @@ void MainWindow::slotAbout()
 
 void MainWindow::slotPageOption()
 {
-
-    //    QPrintPreviewDialog *pd = new QPrintPreviewDialog(&printer);
-    //    connect(pd,SIGNAL(paintRequested(QPrinter*)),this,SLOT(slotPrint(QPrinter*)));
-    //    pd->exec();
     QPageSetupDialog setup(&printer, this);
     setup.exec();
 }
 
 void MainWindow::slotPrint()
 {
+    if(mDupldexMenu.exec() == QDialog::Accepted)
+    {
+        printer.setDuplex(QPrinter::DuplexShortSide);
+    }
+    else
+    {
+        printer.setDuplex(QPrinter::DuplexNone);
+    }
     QPrintPreviewDialog *pd = new QPrintPreviewDialog(&printer);
     connect(pd,SIGNAL(paintRequested(QPrinter*)),this,SLOT(slotPrintFile(QPrinter*)));
     pd->exec();
@@ -295,16 +302,32 @@ void MainWindow::slotPrint()
 
 void MainWindow::slotPrintFile(QPrinter *p)
 {
-    qDebug() << "printing...";
+
     QTextDocument doc(getPlainText(), this);
     doc.setDefaultFont(ui->memo->font());
     doc.print(p);
+//    QPainter pa(p);
+//    auto r = p->paperRect();
+//    doc.setPageSize(r.size());
+//    doc.drawContents (& pa );
     qDebug() << "From " <<  p->fromPage() << "to " << p->toPage() << "pages";
     int c = p->fromPage();
+    QProgressDialog progress(tr("Printig..."), tr("Abort"), c, p->toPage());
+    if(p->toPage() != 0)
+    {
+        progress.exec();
+    }
     while(c++ < p->toPage())
     {
+        if(progress.wasCanceled())
+        {
+            break;
+        }
+        progress.setValue(p-c);
         p->newPage();
     }
+
+
 }
 
 void MainWindow::saveConfigTo(const QString &path, const QString& file)

@@ -17,6 +17,7 @@
 #include "fontdialog.h"
 #include "aboutdialog.h"
 #include "pageoptiondialog.h"
+#include "duplexprintdialog.h"
 #include <map>
 
 namespace Ui {
@@ -109,6 +110,7 @@ private:
     QString mStyleName;
     QPrinter printer;
     PageOptionDialog mPageOptionMenu;
+    DuplexPrintDialog mDupldexMenu;
 
 };
 
