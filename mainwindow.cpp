@@ -171,6 +171,7 @@ bool MainWindow::slotSaveAs()
         ui->statusBar->showMessage(QString("File wasn't saved"));
     }
     updateCaption();
+    lastDir = fileName;
     return !fileName.isEmpty();
 }
 
@@ -513,12 +514,9 @@ void MainWindow::readConfigFrom(const QString &path, const QString &file)
         config.resize(0);
         config.close();
         QFont defFont;
-        qDebug() << errorParser.errorString();
     }
     else
     {
-        int size;
-        std::map<QString, QString> fontProperties;
         int indexKey = 0;
         QStringList keys = obj.keys();
         for(auto i : obj)
