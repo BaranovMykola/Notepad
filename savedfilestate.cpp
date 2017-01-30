@@ -39,7 +39,7 @@ void SavedFileState::save(MainWindow& obj)
     {
         fileName = "Untitled";
     }
-    obj.ui->statusBar->showMessage(QString("File has been saved already (%1)").arg(fileName));
+    obj.ui->statusBar->showMessage(QString("File has been already saved (%1)").arg(fileName));
 }
 
 void SavedFileState::close(MainWindow &obj)

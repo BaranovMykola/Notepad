@@ -277,10 +277,6 @@ void MainWindow::slotAbout()
 
 void MainWindow::slotPageOption()
 {
-//    QPrinter printer;
-//    printer.setResolution(QPrinter::HighResolution);
-//    printer.setPaperSize(QPrinter::A4);
-//    printer.setOrientation(QPrinter::Portrait);
     QPrintPreviewDialog *pd = new QPrintPreviewDialog(&printer);
     connect(pd,SIGNAL(paintRequested(QPrinter*)),this,SLOT(slotPrint(QPrinter*)));
     pd->exec();
@@ -288,15 +284,21 @@ void MainWindow::slotPageOption()
 
 void MainWindow::slotPrint(QPrinter* p)
 {
-        qDebug() << "printing...";
-        QTextDocument doc(getPlainText(), this);
-        doc.setDefaultFont(ui->memo->font());
-        doc.print(p);
+    qDebug() << "From " <<  p->fromPage() << "to " << p->toPage() << "pages";
+
+    QTextDocument doc(getPlainText(), this);
+    doc.setDefaultFont(ui->memo->font());
+    doc.print(p);
+    int c = p->fromPage();
+    while(c++ < p->toPage())
+    {
+        p->newPage();
+    }
 }
 
 void MainWindow::saveConfigTo(const QString &path, const QString& file)
 {
-    QDir dir = qApp->applicationDirPath();;
+    QDir dir = qApp->applicationDirPath();
     QString localPath = dir.absolutePath();
     qDebug() << localPath;
     localPath = localPath.append("/%1").arg(path);
