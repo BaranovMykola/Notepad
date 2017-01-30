@@ -38,6 +38,7 @@ public:
     void openFile(QString fileName);
 
     void closeEvent(QCloseEvent *event);
+    void updateCaption();
 public slots:
     void slotOpenFile();
     void slotNewFile();
@@ -58,6 +59,7 @@ public slots:
     void slotAbout();
     void slotPageOption();
     void slotPrint();
+    void slotSelectAll();
 private:
     void open();
     void save();

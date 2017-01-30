@@ -14,4 +14,6 @@ const int IntMaxLenght = 10;
 const int DefaultFontSize = 9;
 const QString ConfigPath = "config"; // dir in one deep with exe-file.
 const QString ConfigNameFile = "config.json";
+const QString TitleFullName = "%1 - Notepad";
+const QString UntitiledName = "Untitled";
 #endif // CONSTANTS_H

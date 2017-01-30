@@ -78,6 +78,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionStatus_Bar, SIGNAL(triggered(bool)), this, SLOT(slotStatusBar()), Qt::UniqueConnection);
     connect(ui->actionAbout_Notepad, SIGNAL(triggered(bool)), this, SLOT(slotAbout()), Qt::UniqueConnection);
     connect(ui->actionPrint, SIGNAL(triggered(bool)), this, SLOT(slotPrint()), Qt::UniqueConnection);
+    connect(ui->actionSelect_all, SIGNAL(triggered(bool)), this, SLOT(slotSelectAll()), Qt::UniqueConnection);
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
@@ -94,6 +95,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionGo_to->setShortcut(QKeySequence::Forward);
     ui->actionRedo->setShortcut(QKeySequence::Redo);
     ui->actionTime_Date->setShortcut(QKeySequence("Ctrl+D"));
+    ui->actionSave_as->setShortcut(QKeySequence("Alt+Ctrl+S"));
+    ui->actionSelect_all->setShortcut(QKeySequence::SelectAll);
 
     readConfigFrom(ConfigPath, ConfigNameFile);
 }
@@ -127,6 +130,16 @@ void MainWindow::closeEvent(QCloseEvent* event)
     }
 }
 
+void MainWindow::updateCaption()
+{
+    QString name = UntitiledName;
+    if(!mFile.fileName().isEmpty())
+    {
+        name = mFile.fileName();
+    }
+    this->setWindowTitle(TitleFullName.arg(name));
+}
+
 void MainWindow::slotOpenFile()
 {
     stateSave->open(*this);
@@ -135,6 +148,7 @@ void MainWindow::slotOpenFile()
 void MainWindow::slotNewFile()
 {
     stateSave->newDoc(*this);
+    updateCaption();
 }
 
 void MainWindow::slotSaveFile()
@@ -156,6 +170,7 @@ bool MainWindow::slotSaveAs()
     {
         ui->statusBar->showMessage(QString("File wasn't saved"));
     }
+    updateCaption();
     return !fileName.isEmpty();
 }
 
@@ -296,6 +311,14 @@ void MainWindow::slotPrint()
 
 }
 
+void MainWindow::slotSelectAll()
+{
+    auto cursor = ui->memo->textCursor();
+    cursor.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+    cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
+    ui->memo->setTextCursor(cursor);
+}
+
 void MainWindow::saveConfigTo(const QString &path, const QString& file)
 {
     QDir dir = qApp->applicationDirPath();;
@@ -318,6 +341,7 @@ void MainWindow::openFile(QString fileName)
     QString data = openFileFunction(mFile);
     ui->memo->setPlainText(data);
     stateSave->updateState(*this);
+    updateCaption();
 }
 
 void MainWindow::open()
