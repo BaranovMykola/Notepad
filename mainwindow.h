@@ -61,7 +61,7 @@ public slots:
     void slotPageOption();
     void slotPrint();
 private slots:
-    void printFile(QPrinter* p);
+    void slotPrintFile(QPrinter* p);
 private:
     void open();
     void save();
@@ -71,7 +71,10 @@ private:
 
 
     /*General algorithm of readint QJsonObject data*/
-    std::tuple<std::map<QString, QString>, std::map<QString, double>, std::map<QString, bool> > readQJsonObject(QJsonObject obj)const;
+    std::tuple<std::map<QString, QString>,
+                std::map<QString, double>,
+                std::map<QString, bool>
+            > readQJsonObject(QJsonObject obj)const;
 
     /*Read QJsonObject pf every prperties and returns this properties*/
     QFont readFont(QJsonObject fontObject);

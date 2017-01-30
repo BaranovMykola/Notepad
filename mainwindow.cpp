@@ -288,22 +288,28 @@ void MainWindow::slotPageOption()
 
 void MainWindow::slotPrint()
 {
-        QPrintPreviewDialog *pd = new QPrintPreviewDialog(&printer);
-        connect(pd,SIGNAL(paintRequested(QPrinter*)),this,SLOT(printFile(QPrinter*)));
-        pd->exec();
+    QPrintPreviewDialog *pd = new QPrintPreviewDialog(&printer);
+    connect(pd,SIGNAL(paintRequested(QPrinter*)),this,SLOT(slotPrintFile(QPrinter*)));
+    pd->exec();
 }
 
-void MainWindow::printFile(QPrinter *p)
+void MainWindow::slotPrintFile(QPrinter *p)
 {
     qDebug() << "printing...";
     QTextDocument doc(getPlainText(), this);
     doc.setDefaultFont(ui->memo->font());
     doc.print(p);
+    qDebug() << "From " <<  p->fromPage() << "to " << p->toPage() << "pages";
+    int c = p->fromPage();
+    while(c++ < p->toPage())
+    {
+        p->newPage();
+    }
 }
 
 void MainWindow::saveConfigTo(const QString &path, const QString& file)
 {
-    QDir dir = qApp->applicationDirPath();;
+    QDir dir = qApp->applicationDirPath();
     QString localPath = dir.absolutePath();
     qDebug() << localPath;
     localPath = localPath.append("/%1").arg(path);
