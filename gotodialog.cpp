@@ -25,6 +25,7 @@ GoToDialog::GoToDialog(QWidget *parent) :
     ui(new Ui::GoToDialog)
 {
     ui->setupUi(this);
+    setWindowModality(Qt::ApplicationModal);
 }
 
 GoToDialog::~GoToDialog()

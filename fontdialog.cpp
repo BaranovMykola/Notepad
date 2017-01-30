@@ -40,7 +40,8 @@ FontDialog::FontDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->setWindowFlags(this->windowFlags() | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);
+    this->setWindowFlags(this->windowFlags() | Qt::MSWindowsFixedSizeDialogHint );
+    this->setWindowModality(Qt::ApplicationModal);
 
     connect(ui->fontList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotFamily()), Qt::UniqueConnection);
     connect(ui->styleList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotUpdateExample()), Qt::UniqueConnection);

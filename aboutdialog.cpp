@@ -23,6 +23,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
+    this->setWindowModality(Qt::ApplicationModal);
 }
 
 AboutDialog::~AboutDialog()

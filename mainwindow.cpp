@@ -32,6 +32,7 @@
 #include <QJsonDocument>
 #include <QtPrintSupport/QPrintDialog>
 #include <QPainter>
+#include <QDockWidget>
 
 #include <map>
 
@@ -56,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     stateSave = new SavedFileState;
     ui->setupUi(this);
+
     findMenu.setMemo(ui->memo);
     replaceMenu.setFindDialog(&findMenu);
     connect(ui->actionOpen, SIGNAL(triggered(bool)), this, SLOT(slotOpenFile()), Qt::UniqueConnection);
@@ -208,6 +210,7 @@ void MainWindow::slotEditFindWord()
 void MainWindow::slotReplace()
 {
     replaceMenu.show();
+    replaceMenu.activateWindow();
 }
 
 void MainWindow::slotGoTo()
