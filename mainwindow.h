@@ -59,7 +59,9 @@ public slots:
     void slotStatusBar();
     void slotAbout();
     void slotPageOption();
-    void slotPrint(QPrinter *p);
+    void slotPrint();
+private slots:
+    void printFile(QPrinter* p);
 private:
     void open();
     void save();

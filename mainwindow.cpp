@@ -33,6 +33,7 @@
 #include <QtPrintSupport/QPrintDialog>
 #include <QPainter>
 #include <QPrintPreviewDialog>
+#include <QPageSetupDialog>
 
 #include <map>
 
@@ -277,21 +278,27 @@ void MainWindow::slotAbout()
 
 void MainWindow::slotPageOption()
 {
-//    QPrinter printer;
-//    printer.setResolution(QPrinter::HighResolution);
-//    printer.setPaperSize(QPrinter::A4);
-//    printer.setOrientation(QPrinter::Portrait);
-    QPrintPreviewDialog *pd = new QPrintPreviewDialog(&printer);
-    connect(pd,SIGNAL(paintRequested(QPrinter*)),this,SLOT(slotPrint(QPrinter*)));
-    pd->exec();
+
+    //    QPrintPreviewDialog *pd = new QPrintPreviewDialog(&printer);
+    //    connect(pd,SIGNAL(paintRequested(QPrinter*)),this,SLOT(slotPrint(QPrinter*)));
+    //    pd->exec();
+    QPageSetupDialog setup(&printer, this);
+    setup.exec();
 }
 
-void MainWindow::slotPrint(QPrinter* p)
+void MainWindow::slotPrint()
 {
-        qDebug() << "printing...";
-        QTextDocument doc(getPlainText(), this);
-        doc.setDefaultFont(ui->memo->font());
-        doc.print(p);
+        QPrintPreviewDialog *pd = new QPrintPreviewDialog(&printer);
+        connect(pd,SIGNAL(paintRequested(QPrinter*)),this,SLOT(printFile(QPrinter*)));
+        pd->exec();
+}
+
+void MainWindow::printFile(QPrinter *p)
+{
+    qDebug() << "printing...";
+    QTextDocument doc(getPlainText(), this);
+    doc.setDefaultFont(ui->memo->font());
+    doc.print(p);
 }
 
 void MainWindow::saveConfigTo(const QString &path, const QString& file)
