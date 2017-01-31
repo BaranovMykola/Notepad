@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/logo">
+        <file alias="qt_logo.png">resource/qt_logo.png</file>
+    </qresource>
+</RCC>
