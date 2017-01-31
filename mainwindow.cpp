@@ -323,7 +323,7 @@ void MainWindow::slotPrintFile(QPrinter *p)
         {
             break;
         }
-        progress.setValue(p-c);
+        progress.setValue(p->toPage()-c);
         p->newPage();
     }
 
