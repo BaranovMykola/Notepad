@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     gotodialog.cpp \
     fontdialog.cpp \
     aboutdialog.cpp \
-    loadingfontsdialog.cpp
+    loadingfontsdialog.cpp \
+    pageoptiondialog.cpp
 
 HEADERS  += mainwindow.h \
     savedfilestate.h \
@@ -38,7 +39,8 @@ HEADERS  += mainwindow.h \
     gotodialog.h \
     fontdialog.h \
     aboutdialog.h \
-    loadingfontsdialog.h
+    loadingfontsdialog.h \
+    pageoptiondialog.h
 
 FORMS    += mainwindow.ui \
     savedialog.ui \
@@ -47,8 +49,11 @@ FORMS    += mainwindow.ui \
     fontdialog.ui \
     aboutdialog.ui \
     replacedialog.ui \
-    loadingfontsdialog.ui
+    loadingfontsdialog.ui \
+    pageoptiondialog.ui
 
 CONFIG += c++14
 
 QT += printsupport
+
+RC_ICONS += Notepad.ico

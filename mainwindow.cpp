@@ -32,7 +32,11 @@
 #include <QJsonDocument>
 #include <QtPrintSupport/QPrintDialog>
 #include <QPainter>
-#include <QDockWidget>
+#include <QPrintPreviewDialog>
+#include <QPageSetupDialog>
+#include <QPrintDialog>
+#include <QProgressDialog>
+#include <QPrinterInfo>
 
 #include <map>
 
@@ -53,7 +57,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mGoToMenu(0),
     mFontMenu(0),
     mFontLoaded(false),
-    mAboutMenu(0)
+    mAboutMenu(0),
+    mPageOptionMenu(0)
 {
     stateSave = new SavedFileState;
     ui->setupUi(this);
@@ -79,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionAbout_Notepad, SIGNAL(triggered(bool)), this, SLOT(slotAbout()), Qt::UniqueConnection);
     connect(ui->actionPrint, SIGNAL(triggered(bool)), this, SLOT(slotPrint()), Qt::UniqueConnection);
     connect(ui->actionSelect_all, SIGNAL(triggered(bool)), this, SLOT(slotSelectAll()), Qt::UniqueConnection);
+    connect(ui->actionPage_Option, SIGNAL(triggered(bool)), this, SLOT(slotPageOption()), Qt::UniqueConnection);
 
     ui->actionOpen->setShortcut(QKeySequence::Open);
     ui->actionExit->setShortcut(QKeySequence::Close);
@@ -97,8 +103,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionTime_Date->setShortcut(QKeySequence("Ctrl+D"));
     ui->actionSave_as->setShortcut(QKeySequence("Alt+Ctrl+S"));
     ui->actionSelect_all->setShortcut(QKeySequence::SelectAll);
+    ui->actionPrint->setShortcut(QKeySequence::Print);
 
     readConfigFrom(ConfigPath, ConfigNameFile);
+
+    mPageOptionMenu.setPrinter(&printer);
+    mPageOptionMenu.populatePagesize();
 }
 
 MainWindow::~MainWindow()
@@ -298,18 +308,38 @@ void MainWindow::slotAbout()
 
 void MainWindow::slotPageOption()
 {
+    QPageSetupDialog setup(&printer, this);
+    setup.exec();
 }
 
 void MainWindow::slotPrint()
 {
-    QPrintDialog printDialog(&printer, this);
-    if(QDialog::Accepted == printDialog.exec())
-    {
-        qDebug() << "printing...";
-        QTextDocument doc(getPlainText(), this);
-        doc.print(&printer);
-    }
+    QPrintPreviewDialog *pd = new QPrintPreviewDialog(&printer);
+    connect(pd,SIGNAL(paintRequested(QPrinter*)),this,SLOT(slotPrintFile(QPrinter*)));
+    pd->exec();
+}
 
+void MainWindow::slotPrintFile(QPrinter *p)
+{
+    QTextDocument doc(getPlainText(), this);
+    doc.setDefaultFont(ui->memo->font());
+    doc.print(p);
+//    qDebug() << "From " <<  p->fromPage() << "to " << p->toPage() << "pages";
+//    int c = p->fromPage();
+//    QProgressDialog progress(tr("Printig..."), tr("Abort"), c, p->toPage());
+//    if(p->toPage() != 0)
+//    {
+//        progress.exec();
+//    }
+//    while(c++ < p->toPage())
+//    {
+//        if(progress.wasCanceled())
+//        {
+//            break;
+//        }
+//        progress.setValue(p->toPage()-c);
+////        p->newPage();
+//    }
 }
 
 void MainWindow::slotSelectAll()
@@ -322,7 +352,7 @@ void MainWindow::slotSelectAll()
 
 void MainWindow::saveConfigTo(const QString &path, const QString& file)
 {
-    QDir dir = qApp->applicationDirPath();;
+    QDir dir = qApp->applicationDirPath();
     QString localPath = dir.absolutePath();
     qDebug() << localPath;
     localPath = localPath.append("/%1").arg(path);

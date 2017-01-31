@@ -289,7 +289,12 @@
   </action>
   <action name="actionPrint">
    <property name="text">
-    <string>Print</string>
+    <string>Print...</string>
+   </property>
+  </action>
+  <action name="actionPrinter_Setup">
+   <property name="text">
+    <string>Printer Setup...</string>
    </property>
   </action>
  </widget>
