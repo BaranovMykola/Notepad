@@ -542,7 +542,6 @@ void MainWindow::readConfigFrom(const QString &path, const QString &file)
         config.open(QIODevice::WriteOnly);
         config.resize(0);
         config.close();
-        QFont defFont;
     }
     else
     {
@@ -556,6 +555,7 @@ void MainWindow::readConfigFrom(const QString &path, const QString &file)
                 if(keys[indexKey] == "Word Wrap")
                 {
                     ui->actionWord_Wrap->setChecked(readWordWrap(i.toObject()));
+                    slotWordWrap();
                 }
                 else if(keys[indexKey] == "Status Bar")
                 {
