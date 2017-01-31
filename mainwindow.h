@@ -111,7 +111,6 @@ private:
     QPrinter printer;
     PageOptionDialog mPageOptionMenu;
     DuplexPrintDialog mDupldexMenu;
-
 };
 
 #endif // MAINWINDOW_H

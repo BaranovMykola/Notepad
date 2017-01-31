@@ -36,6 +36,7 @@
 #include <QPageSetupDialog>
 #include <QPrintDialog>
 #include <QProgressDialog>
+#include <QPrinterInfo>
 
 #include <map>
 
@@ -287,14 +288,6 @@ void MainWindow::slotPageOption()
 
 void MainWindow::slotPrint()
 {
-    if(mDupldexMenu.exec() == QDialog::Accepted)
-    {
-        printer.setDuplex(QPrinter::DuplexShortSide);
-    }
-    else
-    {
-        printer.setDuplex(QPrinter::DuplexNone);
-    }
     QPrintPreviewDialog *pd = new QPrintPreviewDialog(&printer);
     connect(pd,SIGNAL(paintRequested(QPrinter*)),this,SLOT(slotPrintFile(QPrinter*)));
     pd->exec();
@@ -302,32 +295,25 @@ void MainWindow::slotPrint()
 
 void MainWindow::slotPrintFile(QPrinter *p)
 {
-
     QTextDocument doc(getPlainText(), this);
     doc.setDefaultFont(ui->memo->font());
     doc.print(p);
-//    QPainter pa(p);
-//    auto r = p->paperRect();
-//    doc.setPageSize(r.size());
-//    doc.drawContents (& pa );
-    qDebug() << "From " <<  p->fromPage() << "to " << p->toPage() << "pages";
-    int c = p->fromPage();
-    QProgressDialog progress(tr("Printig..."), tr("Abort"), c, p->toPage());
-    if(p->toPage() != 0)
-    {
-        progress.exec();
-    }
-    while(c++ < p->toPage())
-    {
-        if(progress.wasCanceled())
-        {
-            break;
-        }
-        progress.setValue(p->toPage()-c);
-        p->newPage();
-    }
-
-
+//    qDebug() << "From " <<  p->fromPage() << "to " << p->toPage() << "pages";
+//    int c = p->fromPage();
+//    QProgressDialog progress(tr("Printig..."), tr("Abort"), c, p->toPage());
+//    if(p->toPage() != 0)
+//    {
+//        progress.exec();
+//    }
+//    while(c++ < p->toPage())
+//    {
+//        if(progress.wasCanceled())
+//        {
+//            break;
+//        }
+//        progress.setValue(p->toPage()-c);
+////        p->newPage();
+//    }
 }
 
 void MainWindow::saveConfigTo(const QString &path, const QString& file)
