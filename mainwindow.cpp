@@ -1,19 +1,21 @@
-//Copyright (C) 2017  Baranov Mykola
+//************************************************************************
+//    This module implement definition of MainWindow class
+//
+//    Copyright (C) 2017 Baranov Mykola <mapsg32@gmail.com>
+//
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
 
-//This program is free software: you can redistribute it and/or modify
-//it under the terms of the GNU General Public License as published by
-//the Free Software Foundation, either version 3 of the License, or
-//(at your option) any later version.
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
 
-//This program is distributed in the hope that it will be useful,
-//but WITHOUT ANY WARRANTY; without even the implied warranty of
-//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//GNU General Public License for more details.
-
-//You should have received a copy of the GNU General Public License
-//along with this program.  If not, see http://www.gnu.org/licenses/
-
-//// \brief MainWindow. Responds for all basic features, signals and slots.
+//    You should have received a copy of the GNU General Public License
+//    along with this program.  If not, see <http://www.gnu.org/licenses/>
+//************************************************************************
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -57,8 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mGoToMenu(0),
     mFontMenu(0),
     mFontLoaded(false),
-    mAboutMenu(0),
-    mPageOptionMenu(0)
+    mAboutMenu(0)
 {
     stateSave = new SavedFileState;
     ui->setupUi(this);
@@ -107,8 +108,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     readConfigFrom(ConfigPath, ConfigNameFile);
 
-    mPageOptionMenu.setPrinter(&printer);
-    mPageOptionMenu.populatePagesize();
 }
 
 MainWindow::~MainWindow()
